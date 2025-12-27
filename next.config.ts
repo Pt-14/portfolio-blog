@@ -1,11 +1,14 @@
 import type { NextConfig } from "next";
 import path from "path";
 
+// Check if deploying to GitHub Pages
+const isGitHubPages = process.env.NODE_ENV === 'production' && process.env.GITHUB_PAGES === 'true';
+
 const nextConfig: NextConfig = {
-  // GitHub Pages configuration
+  // GitHub Pages configuration (only when GITHUB_PAGES=true)
   output: 'export',
-  basePath: '/portfolio-blog',
-  assetPrefix: '/portfolio-blog',
+  basePath: isGitHubPages ? '/portfolio-blog' : '',
+  assetPrefix: isGitHubPages ? '/portfolio-blog' : '',
   trailingSlash: true,
   
   // Turbopack config (empty to silence warning, using webpack for module resolution fix)
