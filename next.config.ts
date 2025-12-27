@@ -2,10 +2,17 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
+  // GitHub Pages configuration
+  output: 'export',
+  basePath: '/portfolio-blog',
+  assetPrefix: '/portfolio-blog',
+  trailingSlash: true,
+  
   // Turbopack config (empty to silence warning, using webpack for module resolution fix)
   turbopack: {},
   
   images: {
+    unoptimized: true, // Required for GitHub Pages
     remotePatterns: [
       {
         protocol: 'https',
