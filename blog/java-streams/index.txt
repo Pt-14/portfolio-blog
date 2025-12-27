@@ -1,0 +1,375 @@
+1:"$Sreact.fragment"
+2:I[54731,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js"],"LanguageProvider"]
+3:I[76055,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js"],"default"]
+4:I[74919,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"default"]
+5:I[7882,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"default"]
+6:I[56450,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js"],"default"]
+8:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"OutletBoundary"]
+9:"$Sreact.suspense"
+b:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"ViewportBoundary"]
+d:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"MetadataBoundary"]
+f:I[23564,[],"default"]
+:HL["/portfolio-blog/_next/static/chunks/14299e94805ff3d3.css","style"]
+:HL["/portfolio-blog/_next/static/media/137e738a3044ae84-s.p.238dcd1b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/186c8edb2e53be7f-s.p.c99fd3fd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/a3c73b24938559c3-s.p.bab49f4c.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/fb30396e64817371-s.p.f046f548.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"P":null,"b":"FFLv47kkbcVThbBtn6b5h","c":["","blog","java-streams",""],"q":"","i":false,"f":[[["",{"children":["blog",{"children":[["slug","java-streams","d"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/portfolio-blog/_next/static/chunks/14299e94805ff3d3.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"vi","className":"scroll-smooth","children":["$","body",null,{"className":"bai_jamjuree_2f3e59e-module__uL3GvG__variable inter_5901b7c6-module__ec5Qua__variable font-sans antialiased bg-[#f0f2f5]","children":["$","$L2",null,{"children":[["$","$L3",null,{}],["$","main",null,{"className":"min-h-screen","children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","$L6",null,{}]]}]}]}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L7",[["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js","async":true,"nonce":"$undefined"}]],["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]]}],{},null,false,false]},null,false,false]},null,false,false]},null,false,false],["$","$1","h",{"children":[null,["$","$Lb",null,{"children":"$Lc"}],["$","div",null,{"hidden":true,"children":["$","$Ld",null,{"children":["$","$9",null,{"name":"Next.Metadata","children":"$Le"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$f",[]],"S":true}
+10:I[65645,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],""]
+11:T3f35,<h2>Khi server của mình bị "đơ" vì quá tải</h2>
+<p>Xin chào các bạn! Hôm nay mình muốn chia sẻ về hành trình học Multithreading trong Java. Đây là chủ đề mà lúc đầu mình thấy siêu khó hiểu, concurrency concepts phức tạp, race conditions, deadlocks - nghe đã muốn bỏ cuộc.</p>
+<p>Mình còn nhớ project đầu tiên: làm một simple chat server. Ban đầu dùng single thread, code đơn giản:</p>
+<pre><code class="language-java">while (true) {
+    Socket client = serverSocket.accept();
+    handleClient(client); // Xử lý từng client một
+}
+</code></pre>
+<p>Nhưng khi test với 2-3 clients cùng lúc, ôi trời ơi! Server bị "đơ" cứng. Client thứ 2 phải chờ client thứ 1 gõ xong, send xong mới được phục vụ. Với 10 clients? Server lag muốn chết.</p>
+<p>Mình ngồi debug cả đêm, rồi học được multithreading. Wow! Từ single thread handle 1 client, giờ server có thể xử lý 1000+ clients đồng thời. Sự khác biệt như từ xe đạp lên ô tô vậy.</p>
+<p><strong>Tại sao multithreading quan trọng trong network programming?</strong></p>
+<ul>
+<li>Mỗi client cần thread riêng (network I/O thường block)</li>
+<li>Server phải responsive, không được "đơ" vì 1 client chậm</li>
+<li>Tận dụng multi-core CPU hiệu quả hơn</li>
+</ul>
+<p>Đó là lúc mình hiểu: multithreading không chỉ là "best practice" - mà là bắt buộc cho server applications.</p>
+<h2>Học cách tạo thread - Từ confuse đến "aha!"</h2>
+<p>Lúc đầu học multithreading, mình confuse với Thread class và Runnable interface. "Tại sao có 2 cách? Cách nào tốt hơn?"</p>
+<p><strong>Cách 1: Extend Thread class</strong>
+Mình thử implement đầu tiên bằng cách extend Thread:</p>
+<pre><code class="language-java">public class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Hello from thread: " + getName());
+        // Xử lý logic ở đây
+    }
+}
+
+// Sử dụng
+MyThread thread = new MyThread();
+thread.start();
+</code></pre>
+<p>Nhưng rồi mình học được: Java không support multiple inheritance. Nếu class đã extend class khác thì sao? Đó là lúc mình biết đến Runnable.</p>
+<p><strong>Cách 2: Implement Runnable (mình dùng cách này)</strong></p>
+<pre><code class="language-java">public class ClientHandler implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Handling client in thread: " + Thread.currentThread().getName());
+        // Xử lý client logic
+    }
+}
+
+// Sử dụng
+Thread thread = new Thread(new ClientHandler());
+thread.start();
+</code></pre>
+<p>Runnable flexible hơn vì có thể implement multiple interfaces. Bây giờ mình luôn dùng Runnable cho client handlers.</p>
+<p><strong>Lambda với Runnable (Java 8+)</strong>
+Mình thích cách này nhất vì concise:</p>
+<pre><code class="language-java">Thread thread = new Thread(() -> {
+    System.out.println("Client handled by: " + Thread.currentThread().getName());
+});
+thread.start();
+</code></pre>
+<p>Từ khi học được Runnable, multithreading code của mình clean hẳn ra.</p>
+<h3>Thread là gì?</h3>
+<p>Thread (luồng) là đơn vị nhỏ nhất của việc thực thi trong một chương trình. Một chương trình Java có thể có nhiều threads chạy đồng thời, cho phép thực hiện nhiều tác vụ cùng lúc.</p>
+<p><strong>Lợi ích của Multithreading:</strong></p>
+<ul>
+<li>Tận dụng tối đa CPU (đặc biệt với multi-core processors)</li>
+<li>Cải thiện responsiveness của ứng dụng</li>
+<li>Xử lý nhiều client đồng thời trong network programming</li>
+</ul>
+<h3>Tạo Thread - Các cách cơ bản</h3>
+<h4>Cách 1: Extend Thread class</h4>
+<pre><code class="language-java">public class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread đang chạy: " + Thread.currentThread().getName());
+        for (int i = 0; i &#x3C; 5; i++) {
+            System.out.println("Count: " + i);
+            try {
+                Thread.sleep(1000); // Ngủ 1 giây
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        MyThread thread1 = new MyThread();
+        MyThread thread2 = new MyThread();
+        
+        thread1.start(); // Bắt đầu thread
+        thread2.start();
+    }
+}
+</code></pre>
+<h4>Cách 2: Implement Runnable interface (Khuyến nghị)</h4>
+<pre><code class="language-java">public class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Thread đang chạy: " + Thread.currentThread().getName());
+    }
+    
+    public static void main(String[] args) {
+        Thread thread1 = new Thread(new MyRunnable());
+        Thread thread2 = new Thread(new MyRunnable());
+        
+        thread1.start();
+        thread2.start();
+    }
+}
+</code></pre>
+<h4>Cách 3: Lambda Expression (Java 8+)</h4>
+<pre><code class="language-java">public class LambdaThread {
+    public static void main(String[] args) {
+        Thread thread = new Thread(() -> {
+            System.out.println("Thread chạy với lambda: " + 
+                Thread.currentThread().getName());
+        });
+        thread.start();
+    }
+}
+</code></pre>
+<h3>Thread Pool - Bài học về resource management</h3>
+<p>Lúc đầu, mình tạo thread mới cho mỗi client. Với 100 clients? 100 threads! Mình thấy memory usage tăng vọt, CPU spike, rồi OutOfMemoryError.</p>
+<p><strong>Thread Pool - Lifesaver:</strong>
+Mình học được ExecutorService - thread pool để tái sử dụng threads. Thay vì tạo/destroy threads liên tục, pool manage một số lượng threads cố định.</p>
+<pre><code class="language-java">ExecutorService threadPool = Executors.newFixedThreadPool(10); // Max 10 threads
+
+for (int i = 0; i &#x3C; 100; i++) {
+    final int clientId = i;
+    threadPool.submit(() -> {
+        System.out.println("Handling client " + clientId + 
+            " on " + Thread.currentThread().getName());
+        // Process client
+    });
+}
+
+threadPool.shutdown(); // Đóng pool khi xong
+</code></pre>
+<p><strong>Performance improvement:</strong></p>
+<ul>
+<li>Trước: 100 threads → memory issues</li>
+<li>Sau: 10 threads tái sử dụng → stable, efficient</li>
+</ul>
+<p>Mình đã tối ưu server từ crash với 50 clients lên handle 1000+ clients smoothly.</p>
+<p><strong>Network server với thread pool:</strong>
+Trong server thực tế, mình dùng thread pool cho tất cả client connections. Mỗi client được xử lý trong thread riêng từ pool, server không bao giờ overload.</p>
+<pre><code class="language-java">import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class MultiThreadedServer {
+    private static final int PORT = 8080;
+    private static final int MAX_THREADS = 10;
+    private static ExecutorService threadPool = 
+        Executors.newFixedThreadPool(MAX_THREADS);
+    
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            System.out.println("Server đang lắng nghe trên port " + PORT);
+            
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Client kết nối: " + 
+                    clientSocket.getInetAddress());
+                
+                // Xử lý client trong thread pool
+                threadPool.submit(new ClientHandler(clientSocket));
+            }
+        } catch (IOException e) {
+            System.err.println("Lỗi server: " + e.getMessage());
+        } finally {
+            threadPool.shutdown();
+        }
+    }
+    
+    // Inner class để xử lý từng client
+    static class ClientHandler implements Runnable {
+        private Socket clientSocket;
+        
+        public ClientHandler(Socket socket) {
+            this.clientSocket = socket;
+        }
+        
+        @Override
+        public void run() {
+            try (BufferedReader in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
+                 PrintWriter out = new PrintWriter(
+                    clientSocket.getOutputStream(), true)) {
+                
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    System.out.println("Thread " + Thread.currentThread().getName() + 
+                        " nhận: " + inputLine);
+                    
+                    // Xử lý message
+                    String response = "Echo: " + inputLine;
+                    out.println(response);
+                    
+                    if ("quit".equalsIgnoreCase(inputLine)) {
+                        break;
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Lỗi xử lý client: " + e.getMessage());
+            } finally {
+                try {
+                    clientSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h3>Synchronization - Khi threads "đánh nhau" nhau</h3>
+<p>Đây là phần khó nhất của multithreading. Mình đã debug race conditions cả tuần liền.</p>
+<p><strong>Race condition nightmare:</strong>
+Mình có counter class, multiple threads increment cùng lúc. Kết quả? Final count sai hoàn toàn! Thread A đọc 5, thread B đọc 5, cả hai ghi 6. Thay vì 10, kết quả là 6.</p>
+<p><strong>Synchronized - Simple solution:</strong></p>
+<pre><code class="language-java">public class Counter {
+    private int count = 0;
+    
+    public synchronized void increment() {
+        count++; // Chỉ 1 thread có thể execute cùng lúc
+    }
+    
+    public synchronized int getCount() {
+        return count;
+    }
+}
+</code></pre>
+<p>Nhưng synchronized có vấn đề: performance kém, dễ deadlock. Mình học được ReentrantLock - flexible hơn.</p>
+<pre><code class="language-java">import java.util.concurrent.locks.ReentrantLock;
+
+public class SafeCounter {
+    private int count = 0;
+    private ReentrantLock lock = new ReentrantLock();
+    
+    public void increment() {
+        lock.lock();
+        try {
+            count++;
+        } finally {
+            lock.unlock(); // Quan trọng: luôn unlock
+        }
+    }
+}
+</code></pre>
+<p><strong>Deadlock horror story:</strong>
+Mình từng tạo deadlock khi 2 threads chờ nhau. Thread A lock resource X, chờ Y; Thread B lock Y, chờ X. Kết quả: cả 2 treo forever.</p>
+<p><strong>Bài học:</strong> Luôn acquire locks theo thứ tự nhất quán, avoid nested locks.</p>
+<p><strong>Concurrent Collections - Thread-safe data structures:</strong>
+Java có ConcurrentHashMap, CopyOnWriteArrayList - thread-safe mà performance tốt. Mình dùng chúng thay vì synchronized collections.</p>
+<p>Từ khi học synchronization properly, multithreading bugs giảm hẳn. Nhưng vẫn cần cẩn thận - concurrency bugs khó debug lắm!</p>
+<pre><code class="language-java">import java.util.concurrent.*;
+
+public class ConcurrentCollectionsExample {
+    public static void main(String[] args) {
+        // ConcurrentHashMap - thread-safe HashMap
+        ConcurrentHashMap&#x3C;String, Integer> map = new ConcurrentHashMap&#x3C;>();
+        map.put("key1", 1);
+        map.put("key2", 2);
+        
+        // BlockingQueue - thread-safe queue
+        BlockingQueue&#x3C;String> queue = new LinkedBlockingQueue&#x3C;>();
+        queue.offer("item1");
+        queue.offer("item2");
+        
+        // CopyOnWriteArrayList - thread-safe ArrayList
+        CopyOnWriteArrayList&#x3C;String> list = new CopyOnWriteArrayList&#x3C;>();
+        list.add("element1");
+        list.add("element2");
+    }
+}
+</code></pre>
+<h3>Future và Callable - Xử lý kết quả bất đồng bộ</h3>
+<pre><code class="language-java">import java.util.concurrent.*;
+
+public class FutureExample {
+    public static void main(String[] args) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+        
+        // Submit Callable task
+        Future&#x3C;String> future = executor.submit(() -> {
+            Thread.sleep(2000);
+            return "Kết quả từ thread";
+        });
+        
+        System.out.println("Đang chờ kết quả...");
+        
+        try {
+            // Lấy kết quả (blocking)
+            String result = future.get(5, TimeUnit.SECONDS);
+            System.out.println("Kết quả: " + result);
+        } catch (TimeoutException e) {
+            System.out.println("Timeout!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        executor.shutdown();
+    }
+}
+</code></pre>
+<h3>CompletableFuture - Lập trình bất đồng bộ hiện đại</h3>
+<pre><code class="language-java">import java.util.concurrent.CompletableFuture;
+
+public class CompletableFutureExample {
+    public static void main(String[] args) {
+        CompletableFuture&#x3C;String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "Hello";
+        });
+        
+        future.thenApply(s -> s + " World")
+              .thenAccept(System.out::println);
+        
+        // Chờ hoàn thành
+        future.join();
+    }
+}
+</code></pre>
+<h2>Những gì mình học được sau project multithreaded server</h2>
+<p>Sau khi deploy server production và gặp đủ loại concurrency issues, mình rút ra nhiều bài học quý báu.</p>
+<p><strong>Thread pool - Prevent OutOfMemory:</strong>
+Mình từng tạo thread mới cho mỗi client. Với 1000 clients? 1000 threads! Server crash ngay. Thread pool cứu cánh - giới hạn số threads, tái sử dụng efficiently.</p>
+<p><strong>Synchronization - Race conditions và deadlocks:</strong>
+Mình debug race condition cả tuần. 2 threads modify shared data cùng lúc, kết quả unpredictable. Synchronization giúp, nhưng dễ tạo deadlock nếu không cẩn thận.</p>
+<p><strong>Monitoring - Know your threads:</strong>
+Production server cần metrics: active threads, queue size, response time. Mình implement monitoring để detect issues early.</p>
+<p><strong>Performance vs Safety trade-off:</strong>
+Synchronized methods safe nhưng slow. Concurrent collections fast hơn nhưng phức tạp hơn. Mình học được balance giữa 2 factors.</p>
+<h2>Kết luận: Multithreading - Cầu nối từ single-threaded sang scalable systems</h2>
+<p>Multithreading không chỉ là "chạy nhiều threads" - mà là cách scale applications để handle thousands of concurrent users. Từ single-threaded server chỉ handle 1 client, giờ mình có thể build systems phục vụ hàng triệu users.</p>
+<p>Concurrency dạy mình: shared state nguy hiểm, isolation quan trọng, monitoring bắt buộc. Đây là foundation của high-performance Java applications.</p>
+<p>Nếu bạn đang học Java và thấy multithreading confusing, đừng nản nhé! Mình cũng từng như bạn. Bắt đầu với simple Thread examples, rồi thread pools, synchronization. Practice nhiều, debug nhiều, bạn sẽ conquer được.</p>
+<p><em>Lời khuyên cho sinh viên:</em></p>
+<ul>
+<li>Bắt đầu với basic Thread creation</li>
+<li>Học thread pools trước khi synchronization</li>
+<li>Debug race conditions bằng logging</li>
+<li>Practice với concurrent collections</li>
+</ul>
+<p><em>P.S: Đây là kinh nghiệm mình học được trong môn Java nâng cao. Nếu bạn thấy bài viết hữu ích, hãy share cho bạn bè cùng học nhé!</em></p>
+7:["$","div",null,{"className":"pt-16 min-h-screen bg-[#f0f2f5]","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12","children":[["$","$L10",null,{"href":"/blog","className":"inline-flex items-center gap-2 text-[#b16cea] hover:text-[#ff5e69] mb-8 transition-colors font-medium","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],["$","span",null,{"children":"Quay lại Blog"}]]}],["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8","children":[["$","h1",null,{"className":"text-3xl md:text-5xl font-bold text-[#161513] mb-4 leading-tight","children":"Đa tuyến và Xử lý đồng thời trong Java"}],["$","p",null,{"className":"text-lg text-gray-600 leading-relaxed mb-6","children":"Tìm hiểu về Multithreading và Concurrency trong Java - cách tạo và quản lý threads, xử lý nhiều client đồng thời trong lập trình mạng."}],["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","Java",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Java"}],["$","span","Multithreading",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Multithreading"}],["$","span","Concurrency",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Concurrency"}],["$","span","Threads",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Threads"}],["$","span","ExecutorService",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"ExecutorService"}]]}],["$","span",null,{"className":"text-sm text-gray-500 whitespace-nowrap","style":{"fontFamily":"var(--font-inter)"},"children":"2024-04-05"}]]}]]}],["$","article",null,{"className":"mb-12","children":["$","div",null,{"className":"prose prose-lg max-w-none prose-headings:text-[#161513] prose-p:text-[#374151] prose-p:leading-relaxed prose-a:text-[#b16cea] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#161513] prose-code:text-[#b16cea] prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#1f2937] prose-pre:rounded-lg prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4","dangerouslySetInnerHTML":{"__html":"$11"}}]}],"$L12","$L13"]}]}]
+14:I[43465,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"Image"]
+15:I[32771,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"default"]
+12:["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8","children":["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-6","children":[["$","div",null,{"className":"flex items-center gap-4","children":[["$","div",null,{"className":"relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex-shrink-0","children":["$","$L14",null,{"src":"/images/avatar/avatar.png","alt":"Truong Yen Phuong","fill":true,"className":"object-cover"}]}],["$","div",null,{"children":[["$","h3",null,{"className":"font-semibold text-[#161513] text-lg mb-1","children":"Truong Yen Phuong"}],["$","p",null,{"className":"text-sm text-gray-600","children":"Tổng hợp kinh nghiệm"}]]}]]}],["$","div",null,{"className":"flex items-center gap-4 flex-wrap","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-share2 lucide-share-2 w-5 h-5 text-[#b16cea]","aria-hidden":"true","children":[["$","circle","gq8acd",{"cx":"18","cy":"5","r":"3"}],["$","circle","w7nqdw",{"cx":"6","cy":"12","r":"3"}],["$","circle","1xt0gg",{"cx":"18","cy":"19","r":"3"}],["$","line","47mynk",{"x1":"8.59","x2":"15.42","y1":"13.51","y2":"17.49"}],["$","line","1n3mei",{"x1":"15.41","x2":"8.59","y1":"6.51","y2":"10.49"}],"$undefined"]}],["$","span",null,{"className":"font-semibold text-[#161513]","children":"Chia sẻ bài viết:"}]]}],["$","$L15",null,{"title":"Đa tuyến và Xử lý đồng thời trong Java","slug":"java-streams"}]]}]]}]}]
+13:["$","div",null,{"className":"text-center","children":["$","$L10",null,{"href":"/blog","className":"inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] to-[#ff5e69] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"Xem tất cả bài viết"]}]}]
+c:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+16:I[93592,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"IconMark"]
+a:null
+e:[["$","title","0",{"children":"Đa tuyến và Xử lý đồng thời trong Java - Blog"}],["$","meta","1",{"name":"description","content":"Tìm hiểu về Multithreading và Concurrency trong Java - cách tạo và quản lý threads, xử lý nhiều client đồng thời trong lập trình mạng."}],["$","meta","2",{"name":"author","content":"Fang"}],["$","meta","3",{"name":"keywords","content":"Frontend Developer,UI/UX Designer,React,Next.js,JavaScript,Java,Portfolio"}],["$","meta","4",{"property":"og:title","content":"Truong Yen Phuong | Portfolio"}],["$","meta","5",{"property":"og:description","content":"Portfolio và Blog cá nhân về Frontend Development và UI/UX Design"}],["$","meta","6",{"property":"og:type","content":"website"}],["$","meta","7",{"name":"twitter:card","content":"summary"}],["$","meta","8",{"name":"twitter:title","content":"Truong Yen Phuong | Portfolio"}],["$","meta","9",{"name":"twitter:description","content":"Portfolio và Blog cá nhân về Frontend Development và UI/UX Design"}],["$","link","10",{"rel":"icon","href":"/portfolio-blog/favicon.ico?favicon.3546e4df.ico","sizes":"454x454","type":"image/x-icon"}],["$","$L16","11",{}]]

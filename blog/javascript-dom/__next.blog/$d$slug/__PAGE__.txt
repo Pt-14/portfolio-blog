@@ -1,0 +1,261 @@
+1:"$Sreact.fragment"
+2:I[65645,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],""]
+8:I[43465,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"Image"]
+9:I[32771,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"default"]
+a:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"OutletBoundary"]
+b:"$Sreact.suspense"
+3:T2e36,<h2>Khi mình "đấu tranh" để kết hợp network với DOM</h2>
+<p>Xin chào các bạn! Hôm nay mình muốn chia sẻ về hành trình học cách tích hợp network operations với DOM manipulation. Đây là chủ đề mà lúc đầu mình thấy siêu khó hiểu, network calls thì OK rồi, DOM manipulation cũng được, nhưng kết hợp chúng lại thì... ôi trời ơi!</p>
+<p>Mình còn nhớ project đầu tiên: làm một todo app đơn giản. Backend API hoàn hảo, frontend cũng đẹp, nhưng khi click "Add Todo", UI không update gì cả! Mình console.log thấy API response OK, nhưng DOM vẫn y chang.</p>
+<p>Đó là lúc mình nhận ra: network programming chỉ là nửa trận, việc update UI từ data mạng mới là nghệ thuật thực sự. Bài viết này là những gì mình học được sau bao lần debug mò mẫm, từ "UI không update" đến "wow, interactive web app!".</p>
+<h2>Fetch data xong nhưng UI không update - Struggle đầu tiên của mình</h2>
+<p>Mình bắt đầu với code đơn giản nhất: fetch API và update DOM.</p>
+<pre><code class="language-javascript">async function loadUsers() {
+  try {
+    const response = await fetch('/api/users');
+    const users = await response.json();
+
+    // Đây là lúc mình stuck!
+    const userList = document.getElementById('user-list');
+    userList.innerHTML = users.map(user =>
+      `&#x3C;li>${user.name} - ${user.email}&#x3C;/li>`
+    ).join('');
+
+  } catch (error) {
+    console.error('Lỗi tải users:', error);
+  }
+}
+</code></pre>
+<p>Code chạy ngon, console.log thấy data, nhưng UI vẫn trống trơn! Mình debug cả tiếng mới nhận ra: quên gọi function <code>loadUsers()</code> trong event listener.</p>
+<p><strong>Bài học đầu tiên:</strong> Network code work ≠ UI update. Phải đảm bảo data flow từ API → JavaScript → DOM.</p>
+<p><strong>Loading states - UX game changer:</strong>
+Sau lần đầu fail, mình học được loading states. User click button, thấy "Đang tải..." thay vì UI treo.</p>
+<pre><code class="language-javascript">async function loadUsers() {
+  try {
+    // Show loading ngay lập tức
+    showLoadingSpinner();
+    const response = await fetch('/api/users');
+    const users = await response.json();
+    hideLoadingSpinner();
+
+    // Update DOM
+    const userList = document.getElementById('userList');
+    userList.innerHTML = users.map(user =>
+      `&#x3C;div>${user.name} - ${user.email}&#x3C;/div>`
+    ).join('');
+
+  } catch (error) {
+    hideLoadingSpinner();
+    showErrorMessage('Không thể tải danh sách users');
+  }
+}
+</code></pre>
+<p>Wow! Từ UI "chết" thành responsive, user experience cải thiện hẳn. Đó là lúc mình hiểu: network + DOM integration không chỉ là code, mà là user experience.</p>
+<h3>Form submission - Khi user submit nhưng API fail</h3>
+<p>Đây là phần mình struggle nhất. Form submit thành công, nhưng API call fail, user không biết gì. Hoặc form submit multiple times do user click nhanh.</p>
+<p><strong>Struggle story:</strong>
+Mình làm contact form đầu tiên. User click submit, form "treo", không phản hồi gì. Mình console.log thấy API error, nhưng user thấy gì? UI vẫn y chang!</p>
+<p>Từ đó, mình implement proper form handling:</p>
+<pre><code class="language-javascript">document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  // Disable button immediately
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Đang gửi...';
+
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      body: new FormData(form)
+    });
+
+    if (response.ok) {
+      alert('Cảm ơn bạn đã liên hệ!');
+      form.reset();
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  } catch (error) {
+    alert('Network error, vui lòng thử lại.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Gửi';
+  }
+});
+</code></pre>
+<p><strong>Bài học lớn:</strong> Form submission không chỉ là send data. Phải:</p>
+<ul>
+<li>Prevent double submission</li>
+<li>Show loading states</li>
+<li>Handle errors gracefully</li>
+<li>Give user feedback</li>
+</ul>
+<p>Từ form "broken" thành "professional UX", mình thấy network + DOM integration thực sự powerful.</p>
+<h3>Real-time updates - Khi WebSocket gặp DOM</h3>
+<p>Sau khi học WebSocket, mình thử implement real-time chat app. WebSocket connection OK, nhưng update DOM real-time thì... challenge!</p>
+<p><strong>Struggle với real-time DOM updates:</strong>
+WebSocket messages đến liên tục, nhưng UI update không kịp. Messages bị duplicate, user list không sync, connection status confuse.</p>
+<p><strong>Solution đơn giản:</strong></p>
+<pre><code class="language-javascript">// Simple real-time chat
+const socket = new WebSocket('ws://localhost:8080/chat');
+const chatDiv = document.getElementById('chatMessages');
+const statusDiv = document.getElementById('connectionStatus');
+
+socket.onopen = () => {
+  statusDiv.textContent = '🟢 Connected';
+};
+
+socket.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  if (data.type === 'new_message') {
+    const messageEl = document.createElement('div');
+    messageEl.innerHTML = `&#x3C;strong>${data.message.user}:&#x3C;/strong> ${data.message.text}`;
+    chatDiv.appendChild(messageEl);
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+  }
+};
+
+socket.onclose = () => {
+  statusDiv.textContent = '🔴 Disconnected';
+};
+</code></pre>
+<p><strong>Bài học từ real-time implementation:</strong></p>
+<ul>
+<li>DOM updates phải efficient, không block UI</li>
+<li>Handle connection drops gracefully</li>
+<li>Debounce updates nếu messages đến quá nhanh</li>
+<li>User feedback quan trọng (connection status)</li>
+</ul>
+<p>Từ "laggy chat" thành "smooth real-time experience", mình thấy WebSocket + DOM integration tạo nên magic.</p>
+<h3>Infinite scroll - Performance challenge của mình</h3>
+<p>Mình làm social media feed clone. Load 1000 posts cùng lúc? Browser lag kinh khủng! Học được infinite scroll - load progressively.</p>
+<p><strong>Struggle với scroll performance:</strong>
+Ban đầu, scroll event fire liên tục, tạo 100+ API calls mỗi giây. Server down, browser crash.</p>
+<p><strong>Solution: Throttle scroll events</strong></p>
+<pre><code class="language-javascript">let ticking = false;
+
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    requestAnimationFrame(() => {
+      const scrollTop = window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      // Load khi gần cuối trang
+      if (scrollTop + windowHeight >= docHeight - 200) {
+        loadMorePosts();
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+async function loadMorePosts() {
+  if (isLoading || !hasMore) return;
+
+  isLoading = true;
+  document.body.insertAdjacentHTML('beforeend', '&#x3C;div>Loading...&#x3C;/div>');
+
+  try {
+    const response = await fetch(`/api/posts?page=${page}`);
+    const data = await response.json();
+
+    if (data.posts.length > 0) {
+      // Append posts to DOM
+      page++;
+    } else {
+      hasMore = false;
+    }
+  } catch (error) {
+    console.error('Load failed:', error);
+  } finally {
+    isLoading = false;
+    // Remove loading indicator
+  }
+}
+</code></pre>
+<p><strong>Bài học từ infinite scroll:</strong></p>
+<ul>
+<li>Throttle scroll events để tránh performance issues</li>
+<li>requestAnimationFrame() cho smooth scrolling</li>
+<li>Handle loading states properly</li>
+<li>Detect "no more data" scenario</li>
+</ul>
+<p>Từ "laggy feed" thành "smooth infinite scroll", mình thấy network + DOM optimization matters.</p>
+<h3>Search với debounce - API call optimization</h3>
+<p>Mình làm search feature đầu tiên. User type "j", API call. Type "ja", API call nữa. Type "jav", call tiếp. Server stress, user experience lag.</p>
+<p><strong>Problem: Too many API calls</strong>
+Mình debug thấy 10+ requests mỗi giây khi user type. Solution: Debounce!</p>
+<pre><code class="language-javascript">function debounce(func, delay) {
+  let timeoutId;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Simple debounced search
+const searchInput = document.getElementById('searchInput');
+const resultsDiv = document.getElementById('searchResults');
+
+const debouncedSearch = debounce(async (query) => {
+  resultsDiv.innerHTML = '&#x3C;p>Searching...&#x3C;/p>';
+  try {
+    const response = await fetch(`/api/search?q=${query}`);
+    const results = await response.json();
+    resultsDiv.innerHTML = results.map(r => `&#x3C;div>&#x3C;h4>${r.title}&#x3C;/h4>&#x3C;/div>`).join('');
+  } catch (error) {
+    resultsDiv.innerHTML = '&#x3C;p>Search failed&#x3C;/p>';
+  }
+}, 300);
+
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.trim();
+  if (query.length >= 2) {
+    debouncedSearch(query);
+  } else {
+    resultsDiv.innerHTML = '';
+  }
+});
+</code></pre>
+<p><strong>Trước vs Sau debounce:</strong></p>
+<ul>
+<li>Trước: 10+ API calls/second → server down</li>
+<li>Sau: 1 API call/300ms → smooth UX</li>
+</ul>
+<p>Mình thấy debounce pattern này dùng everywhere: search, form validation, window resize. Simple nhưng powerful!</p>
+<h2>Những gì mình học được sau project frontend đầu tiên</h2>
+<p>Sau khi hoàn thành e-commerce project đầu tiên, mình rút ra nhiều bài học về network + DOM integration.</p>
+<p><strong>Thứ nhất: UX over everything</strong>
+API call fail? Don't crash app! Show error message, retry button. User experience matters more than perfect code.</p>
+<p><strong>Thứ hai: Race conditions everywhere</strong>
+User click "Add to cart" 5 times? 5 API calls! Mình implement loading states, disable buttons, debounce clicks. Simple fixes prevent big issues.</p>
+<p><strong>Thứ ba: Optimistic updates = Magic</strong>
+User add item to cart, update UI immediately (optimistic), then sync with server. App feels instant, even with network latency.</p>
+<p><strong>Thứ tư: Performance patterns essential</strong>
+Infinite scroll, debounced search, lazy loading - these aren't optional. They're mandatory for good UX.</p>
+<p><strong>Thứ năm: Error handling = Pro level</strong>
+Network unreliable. Handle timeouts, retries, offline states. User should never see "Loading..." forever.</p>
+<h2>Kết luận: Network + DOM = Heart của Interactive Web</h2>
+<p>Từ "broken UI" đến "smooth web app", hành trình network + DOM integration dạy mình: code không chỉ work, mà phải delightful to use.</p>
+<p>Frontend development không chỉ là styling + JavaScript. Network integration tạo nên real applications. Khi master được, todo app, social feed, e-commerce - everything becomes possible.</p>
+<p>Nếu bạn đang học frontend và thấy network confusing, đừng nản nhé! Mình cũng từng stuck như bạn. Start simple: fetch + innerHTML. Then add loading, error handling, real-time updates. Practice consistently, you'll get there.</p>
+<p><em>Lời khuyên cho sinh viên frontend:</em></p>
+<ul>
+<li>Always show loading states</li>
+<li>Handle errors gracefully</li>
+<li>Debounce user interactions</li>
+<li>Test on slow networks</li>
+<li>Prioritize UX over features</li>
+</ul>
+<p><em>P.S: Đây là kinh nghiệm mình học được trong môn JavaScript. Nếu bạn thấy bài viết hữu ích, hãy share cho bạn bè cùng học nhé!</em></p>
+0:{"buildId":"FFLv47kkbcVThbBtn6b5h","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"pt-16 min-h-screen bg-[#f0f2f5]","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12","children":[["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 text-[#b16cea] hover:text-[#ff5e69] mb-8 transition-colors font-medium","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],["$","span",null,{"children":"Quay lại Blog"}]]}],["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8","children":[["$","h1",null,{"className":"text-3xl md:text-5xl font-bold text-[#161513] mb-4 leading-tight","children":"JavaScript Network APIs và DOM Integration"}],["$","p",null,{"className":"text-lg text-gray-600 leading-relaxed mb-6","children":"Tìm hiểu cách tích hợp network operations với DOM manipulation - cập nhật UI động từ dữ liệu mạng, xử lý forms, và tạo interactive web applications."}],["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","JavaScript",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"JavaScript"}],["$","span","DOM",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"DOM"}],["$","span","Network APIs",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Network APIs"}],["$","span","UI Updates",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"UI Updates"}],["$","span","Forms",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Forms"}]]}],["$","span",null,{"className":"text-sm text-gray-500 whitespace-nowrap","style":{"fontFamily":"var(--font-inter)"},"children":"2024-04-25"}]]}]]}],["$","article",null,{"className":"mb-12","children":["$","div",null,{"className":"prose prose-lg max-w-none prose-headings:text-[#161513] prose-p:text-[#374151] prose-p:leading-relaxed prose-a:text-[#b16cea] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#161513] prose-code:text-[#b16cea] prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#1f2937] prose-pre:rounded-lg prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4","dangerouslySetInnerHTML":{"__html":"$3"}}]}],"$L4","$L5"]}]}],["$L6"],"$L7"]}],"loading":null,"isPartial":false}
+4:["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8","children":["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-6","children":[["$","div",null,{"className":"flex items-center gap-4","children":[["$","div",null,{"className":"relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex-shrink-0","children":["$","$L8",null,{"src":"/images/avatar/avatar.png","alt":"Truong Yen Phuong","fill":true,"className":"object-cover"}]}],["$","div",null,{"children":[["$","h3",null,{"className":"font-semibold text-[#161513] text-lg mb-1","children":"Truong Yen Phuong"}],["$","p",null,{"className":"text-sm text-gray-600","children":"Tổng hợp kinh nghiệm"}]]}]]}],["$","div",null,{"className":"flex items-center gap-4 flex-wrap","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-share2 lucide-share-2 w-5 h-5 text-[#b16cea]","aria-hidden":"true","children":[["$","circle","gq8acd",{"cx":"18","cy":"5","r":"3"}],["$","circle","w7nqdw",{"cx":"6","cy":"12","r":"3"}],["$","circle","1xt0gg",{"cx":"18","cy":"19","r":"3"}],["$","line","47mynk",{"x1":"8.59","x2":"15.42","y1":"13.51","y2":"17.49"}],["$","line","1n3mei",{"x1":"15.41","x2":"8.59","y1":"6.51","y2":"10.49"}],"$undefined"]}],["$","span",null,{"className":"font-semibold text-[#161513]","children":"Chia sẻ bài viết:"}]]}],["$","$L9",null,{"title":"JavaScript Network APIs và DOM Integration","slug":"javascript-dom"}]]}]]}]}]
+5:["$","div",null,{"className":"text-center","children":["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] to-[#ff5e69] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"Xem tất cả bài viết"]}]}]
+6:["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js","async":true}]
+7:["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]
+c:null

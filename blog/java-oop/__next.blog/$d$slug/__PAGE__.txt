@@ -1,0 +1,209 @@
+1:"$Sreact.fragment"
+2:I[65645,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],""]
+8:I[43465,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"Image"]
+9:I[32771,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"default"]
+a:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"OutletBoundary"]
+b:"$Sreact.suspense"
+3:T3707,<h2>Khi networking làm tôi "đau đầu" trong những ngày đầu học</h2>
+<p>Xin chào các bạn! Mình là sinh viên năm 4 ngành CNTT, và hôm nay mình muốn chia sẻ về hành trình học TCP Sockets trong Java. Đây là một chủ đề mà lúc đầu mình thấy siêu khó hiểu, networking concepts phức tạp, code thì dài dòng, debug thì mò mẫm.</p>
+<p>Mình còn nhớ như in ngày đầu tiên học môn Lập trình mạng. Giáo viên giảng về client-server architecture, TCP/IP protocol stack, mà mình chỉ biết gật gù theo. "Socket là cái gì? Tại sao phải dùng port? Client và server khác nhau chỗ nào?"</p>
+<p>Sau bao nhiêu lần debug, bao nhiêu đêm thức khuya fix bug, mình mới hiểu ra: TCP Sockets không chỉ là code, mà là cách để hai chương trình "nói chuyện" với nhau qua mạng. Bài viết này là những gì mình học được sau 3 tháng vật lộn với TCP Sockets.</p>
+<h2>TCP Sockets là gì? - Hiểu đơn giản thôi!</h2>
+<p>TCP Socket đơn giản là một "điểm cuối" để kết nối mạng. Nó như cái điện thoại vậy - một bên gọi (client), một bên nghe (server), và chúng có thể trao đổi dữ liệu qua lại.</p>
+<p>Điều làm mình ấn tượng nhất là TCP đảm bảo dữ liệu "đến đúng, đủ, có thứ tự". Khác với UDP (mình sẽ giải thích sau), TCP như dịch vụ giao hàng có bảo hiểm - chậm một chút nhưng chắc chắn không thất lạc.</p>
+<p>Mình đã thử build một echo server đơn giản làm bài tập. Khi client gửi "Hello", server trả về "Hello" - khoảnh khắc thấy nó hoạt động, mình như trúng thưởng vậy! Lần đầu tiên trong đời, mình làm được hai chương trình "nói chuyện" với nhau qua mạng.</p>
+<h2>TCP vs UDP - Sự khác biệt làm mình đau đầu nhất</h2>
+<p>Lúc đầu học networking, mình cứ bị confuse mãi về TCP và UDP. Giáo viên giảng UDP "nhanh hơn, ít overhead hơn" nhưng "không đảm bảo delivery". Mình ngồi nghĩ mãi: tại sao lại có hai protocol khác nhau thế này?</p>
+<p>Rồi mình hiểu ra sự khác biệt qua những ví dụ thực tế:</p>
+<p><strong>TCP như gửi thư bảo đảm:</strong></p>
+<ul>
+<li>Chậm hơn (phải xác nhận đã nhận)</li>
+<li>Nhưng chắc chắn 100% đến nơi</li>
+<li>Dữ liệu đến đúng thứ tự</li>
+</ul>
+<p><strong>UDP như gửi postcard:</strong></p>
+<ul>
+<li>Nhanh như bay (không cần xác nhận)</li>
+<li>Có thể bị mất dọc đường</li>
+<li>Thứ tự không đảm bảo</li>
+</ul>
+<p>Trong bài tập đầu tiên, mình dùng TCP cho chat app vì sợ mất tin nhắn. Nhưng khi làm game đơn giản, mình thử dùng UDP cho position updates - wow, mượt mà hẳn ra! Đó là lúc mình hiểu: chọn protocol phụ thuộc vào use case.</p>
+<p>Bây giờ mình đã nhớ kỹ: TCP cho reliable communication (chat, file transfer), UDP cho real-time applications (gaming, streaming) cần speed hơn reliability.</p>
+<h2>TCP Server - Khi mình finally hiểu được "server là gì"</h2>
+<p>Lúc đầu, khái niệm "server" làm mình confuse lắm. ServerSocket là cái gì? Tại sao phải listen trên port? Tại sao cần thread để xử lý client?</p>
+<p>Mình đã dành cả buổi tối để debug server đầu tiên. Ban đầu server chỉ xử lý được 1 client, client thứ 2 phải chờ. Rồi mình học được multi-threading - mỗi client được xử lý trong thread riêng.</p>
+<p>Cái khó nhất là error handling. Connection có thể đứt bất cứ lúc nào, IOException có thể xảy ra ở bất kỳ đâu. Mình đã mất 2 ngày để handle properly các edge cases.</p>
+<p>Đây là server đơn giản nhất mà mình từng viết - echo server:</p>
+<pre><code class="language-java">public class SimpleTCPServer {
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("Server đang chờ kết nối trên port 8080...");
+
+        while (true) {
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client mới kết nối!");
+            // Mỗi client trong thread riêng
+            new Thread(() -> handleClient(clientSocket)).start();
+        }
+    }
+
+    private static void handleClient(Socket clientSocket) {
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(clientSocket.getInputStream()));
+             PrintWriter out = new PrintWriter(
+                clientSocket.getOutputStream(), true)) {
+
+            String message;
+            while ((message = in.readLine()) != null) {
+                System.out.println("Client: " + message);
+                out.println("Server echo: " + message); // Trả lời client
+            }
+        } catch (IOException e) {
+            System.err.println("Lỗi: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p>Khó khăn lớn nhất của mình là hiểu được:</p>
+<ul>
+<li>ServerSocket.accept() là blocking call - nó chờ client kết nối</li>
+<li>Mỗi client cần được xử lý trong thread riêng để không block server</li>
+<li>Phải close socket properly để tránh memory leak</li>
+</ul>
+<h3>TCP Client - Phía dễ hơn nhưng cũng có những cạm bẫy</h3>
+<p>So với server, client code đơn giản hơn nhiều. Chỉ cần tạo Socket và kết nối đến server. Nhưng mình cũng gặp một số vấn đề:</p>
+<ul>
+<li>Blocking I/O: khi đọc từ server, program bị block nếu không có data</li>
+<li>Threading: cần thread riêng để đọc và ghi đồng thời</li>
+<li>Connection management: biết khi nào connection bị đứt</li>
+</ul>
+<p>Mình đã thử viết client blocking I/O trước. Kết quả: khi server không gửi gì, client bị treo cứng. Rồi mình học được non-blocking I/O với threads.</p>
+<p>Đây là client mà mình viết sau khi hiểu được threading:</p>
+<pre><code class="language-java">public class SimpleTCPClient {
+    public static void main(String[] args) {
+        try (Socket socket = new Socket("localhost", 8080);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(
+                new InputStreamReader(socket.getInputStream()));
+             Scanner scanner = new Scanner(System.in)) {
+
+            System.out.println("Đã kết nối đến server!");
+
+            // Thread riêng để đọc response từ server
+            Thread reader = new Thread(() -> {
+                try {
+                    String response;
+                    while ((response = in.readLine()) != null) {
+                        System.out.println("Server: " + response);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Mất kết nối với server");
+                }
+            });
+            reader.start();
+
+            // Main thread gửi message
+            String message;
+            while (!(message = scanner.nextLine()).equals("quit")) {
+                out.println(message);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Không thể kết nối: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p>Bài học lớn nhất: client cũng cần threading để handle bidirectional communication. Một thread đọc, một thread ghi.</p>
+<h3>Xử lý nhiều Client - Threading làm mình muốn điên</h3>
+<p>Đây là phần khó nhất của mình. Server single-threaded chỉ xử lý được 1 client, client khác phải chờ. Nhưng multi-threading có quá nhiều complexity:</p>
+<ul>
+<li>Race conditions khi nhiều threads access shared data</li>
+<li>Memory leaks nếu không close threads properly</li>
+<li>Deadlocks nếu không handle synchronization</li>
+<li>Performance issues với too many threads</li>
+</ul>
+<p>Mình đã thử Thread Pool sau khi học được từ bài giảng. ExecutorService giúp manage threads tốt hơn, nhưng vẫn phức tạp.</p>
+<p>Bài học của mình: bắt đầu với simple multi-threading, rồi mới học advanced concepts như thread pools. Don't try to optimize prematurely!</p>
+<pre><code class="language-java">public class MultiClientServer {
+    private static final int PORT = 8080;
+    private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
+
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(PORT);
+        System.out.println("Server đang chạy trên port " + PORT);
+
+        while (true) {
+            Socket client = serverSocket.accept();
+            System.out.println("Client mới kết nối");
+            // Mỗi client trong thread riêng từ pool
+            threadPool.submit(() -> handleClient(client));
+        }
+    }
+
+    private static void handleClient(Socket client) {
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(client.getInputStream()));
+             PrintWriter out = new PrintWriter(client.getOutputStream(), true)) {
+
+            out.println("Chào mừng! Gõ quit để thoát.");
+
+            String message;
+            while ((message = in.readLine()) != null) {
+                if ("quit".equals(message)) break;
+                out.println("Server: " + message.toUpperCase());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+</code></pre>
+<p>Mình mất 1 tuần để debug multi-threading issues. Nhưng khi nó work, cảm giác thật tuyệt vời!</p>
+<h3>Những gì mình học thêm ngoài basic communication</h3>
+<p>Sau khi nắm được basic client-server communication, mình còn học thêm một số topics nâng cao:</p>
+<p><strong>Object serialization qua network:</strong>
+Mình đã thử gửi Java objects qua socket thay vì chỉ text. Học được ObjectOutputStream/ObjectInputStream, nhưng cũng gặp vấn đề với ClassNotFoundException khi deserialize.</p>
+<p><strong>File transfer:</strong>
+Bài tập gửi file qua socket làm mình hiểu về binary data transfer. Phải handle buffer size, progress tracking, và error recovery.</p>
+<p><strong>Socket configuration:</strong>
+Timeout settings, buffer sizes, TCP_NODELAY - những low-level optimizations mà lúc đầu mình không hiểu tại sao cần.</p>
+<p>Tất cả những topics này đều khó, nhưng chúng giúp mình appreciate được complexity của network programming. Mình nhận ra: basic text communication chỉ là bước đầu, real-world applications cần handle nhiều edge cases hơn.</p>
+<h2>Những bài học sau 3 tháng vật lộn với TCP Sockets</h2>
+<p>Sau bao nhiêu đêm thức khuya debug, bao nhiêu lần rebuild server từ đầu, mình rút ra được một số bài học quý báu:</p>
+<p><strong>Thứ nhất: Multi-threading không thể thiếu</strong>
+Server đầu tiên của mình chỉ xử lý được 1 client. Khi client thứ 2 kết nối, nó phải chờ. Mình học được: mỗi client cần thread riêng, nếu không server sẽ block hoàn toàn.</p>
+<p><strong>Thứ hai: Error handling là 50% công việc</strong>
+Network unreliable lắm! Connection đứt, timeout, invalid data - mọi thứ có thể xảy ra. Mình đã từng crash cả server vì không handle IOException properly.</p>
+<p><strong>Thứ ba: TCP vs UDP - phụ thuộc vào use case</strong>
+Đừng nghĩ TCP luôn tốt hơn. Với game real-time, UDP phù hợp hơn vì speed quan trọng hơn reliability. Với chat app thì TCP chắc chắn.</p>
+<p><strong>Thứ tư: Start simple, iterate</strong>
+Đừng cố làm multi-client server ngay từ đầu. Mình đã fail nhiều lần vì try to do everything cùng lúc. Bắt đầu với echo server, rồi thêm features dần.</p>
+<p><strong>Thứ năm: Debugging networking cực kỳ khó</strong>
+Print statements không đủ. Mình phải học Wireshark để capture network packets. Khó khăn nhưng đáng giá.</p>
+<h2>Kết luận: TCP Sockets - Khi networking không còn "đau đầu" nữa</h2>
+<p>Sau 3 tháng vật lộn với TCP Sockets, mình có thể tự tin nói: đây là một trong những chủ đề khó nhất nhưng cũng thú vị nhất mà mình từng học.</p>
+<p>Từ một sinh viên networking newbie - confuse về client-server, sợ multi-threading, đến nay mình có thể build chat server với multi-client support. Đó là một journey đầy gian nan nhưng đáng nhớ.</p>
+<p>TCP Sockets dạy mình nhiều điều không chỉ về code, mà về real-world programming: handle failures gracefully, think about concurrency, và appreciate reliability của network protocols.</p>
+<p>Nếu bạn đang học networking và cảm thấy khó khăn như mình ngày xưa, hãy kiên trì nhé! Mỗi bug fix, mỗi successful connection là một bước tiến.</p>
+<p><strong>Lời khuyên cho các bạn sinh viên:</strong></p>
+<ul>
+<li>Bắt đầu với simple echo server trước</li>
+<li>Debug từng bước một, don't rush</li>
+<li>Học multi-threading từ early</li>
+<li>Practice với Wireshark để understand network</li>
+</ul>
+<p>Nếu bài viết này giúp ích được gì cho bạn, hãy share cho bạn bè cùng lớp nhé! Networking khó nhưng khi conquer được, bạn sẽ thấy nó amazing lắm.</p>
+<p><em>P.S: Đây là những gì mình học được trong môn Lập trình mạng. Nếu có gì sai sót, hãy comment để mình học hỏi thêm nhé!</em></p>
+0:{"buildId":"FFLv47kkbcVThbBtn6b5h","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"pt-16 min-h-screen bg-[#f0f2f5]","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12","children":[["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 text-[#b16cea] hover:text-[#ff5e69] mb-8 transition-colors font-medium","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],["$","span",null,{"children":"Quay lại Blog"}]]}],["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8","children":[["$","h1",null,{"className":"text-3xl md:text-5xl font-bold text-[#161513] mb-4 leading-tight","children":"Lập trình TCP Sockets trong Java"}],["$","p",null,{"className":"text-lg text-gray-600 leading-relaxed mb-6","children":"Tìm hiểu về TCP Sockets trong Java - cách tạo kết nối hai chiều giữa client và server, xây dựng ứng dụng mạng với Socket và ServerSocket."}],["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","Java",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Java"}],["$","span","TCP",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"TCP"}],["$","span","Sockets",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Sockets"}],["$","span","Network Programming",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Network Programming"}],["$","span","Client-Server",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Client-Server"}]]}],["$","span",null,{"className":"text-sm text-gray-500 whitespace-nowrap","style":{"fontFamily":"var(--font-inter)"},"children":"2024-03-25"}]]}]]}],["$","article",null,{"className":"mb-12","children":["$","div",null,{"className":"prose prose-lg max-w-none prose-headings:text-[#161513] prose-p:text-[#374151] prose-p:leading-relaxed prose-a:text-[#b16cea] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#161513] prose-code:text-[#b16cea] prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#1f2937] prose-pre:rounded-lg prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4","dangerouslySetInnerHTML":{"__html":"$3"}}]}],"$L4","$L5"]}]}],["$L6"],"$L7"]}],"loading":null,"isPartial":false}
+4:["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8","children":["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-6","children":[["$","div",null,{"className":"flex items-center gap-4","children":[["$","div",null,{"className":"relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex-shrink-0","children":["$","$L8",null,{"src":"/images/avatar/avatar.png","alt":"Truong Yen Phuong","fill":true,"className":"object-cover"}]}],["$","div",null,{"children":[["$","h3",null,{"className":"font-semibold text-[#161513] text-lg mb-1","children":"Truong Yen Phuong"}],["$","p",null,{"className":"text-sm text-gray-600","children":"Tổng hợp kinh nghiệm"}]]}]]}],["$","div",null,{"className":"flex items-center gap-4 flex-wrap","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-share2 lucide-share-2 w-5 h-5 text-[#b16cea]","aria-hidden":"true","children":[["$","circle","gq8acd",{"cx":"18","cy":"5","r":"3"}],["$","circle","w7nqdw",{"cx":"6","cy":"12","r":"3"}],["$","circle","1xt0gg",{"cx":"18","cy":"19","r":"3"}],["$","line","47mynk",{"x1":"8.59","x2":"15.42","y1":"13.51","y2":"17.49"}],["$","line","1n3mei",{"x1":"15.41","x2":"8.59","y1":"6.51","y2":"10.49"}],"$undefined"]}],["$","span",null,{"className":"font-semibold text-[#161513]","children":"Chia sẻ bài viết:"}]]}],["$","$L9",null,{"title":"Lập trình TCP Sockets trong Java","slug":"java-oop"}]]}]]}]}]
+5:["$","div",null,{"className":"text-center","children":["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] to-[#ff5e69] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"Xem tất cả bài viết"]}]}]
+6:["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js","async":true}]
+7:["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]
+c:null

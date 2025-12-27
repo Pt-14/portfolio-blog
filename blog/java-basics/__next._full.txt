@@ -1,0 +1,158 @@
+1:"$Sreact.fragment"
+2:I[54731,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js"],"LanguageProvider"]
+3:I[76055,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js"],"default"]
+4:I[74919,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"default"]
+5:I[7882,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"default"]
+6:I[56450,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js"],"default"]
+8:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"OutletBoundary"]
+9:"$Sreact.suspense"
+b:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"ViewportBoundary"]
+d:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"MetadataBoundary"]
+f:I[23564,[],"default"]
+:HL["/portfolio-blog/_next/static/chunks/14299e94805ff3d3.css","style"]
+:HL["/portfolio-blog/_next/static/media/137e738a3044ae84-s.p.238dcd1b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/186c8edb2e53be7f-s.p.c99fd3fd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/a3c73b24938559c3-s.p.bab49f4c.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portfolio-blog/_next/static/media/fb30396e64817371-s.p.f046f548.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"P":null,"b":"FFLv47kkbcVThbBtn6b5h","c":["","blog","java-basics",""],"q":"","i":false,"f":[[["",{"children":["blog",{"children":[["slug","java-basics","d"],{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],[["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/portfolio-blog/_next/static/chunks/14299e94805ff3d3.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"vi","className":"scroll-smooth","children":["$","body",null,{"className":"bai_jamjuree_2f3e59e-module__uL3GvG__variable inter_5901b7c6-module__ec5Qua__variable font-sans antialiased bg-[#f0f2f5]","children":["$","$L2",null,{"children":[["$","$L3",null,{}],["$","main",null,{"className":"min-h-screen","children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","$L6",null,{}]]}]}]}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":[["$","$1","c",{"children":["$L7",[["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js","async":true,"nonce":"$undefined"}]],["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]]}],{},null,false,false]},null,false,false]},null,false,false]},null,false,false],["$","$1","h",{"children":[null,["$","$Lb",null,{"children":"$Lc"}],["$","div",null,{"hidden":true,"children":["$","$Ld",null,{"children":["$","$9",null,{"name":"Next.Metadata","children":"$Le"}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],false]],"m":"$undefined","G":["$f",[]],"S":true}
+10:I[65645,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],""]
+11:T2383,<h2>Vấn đề mà mọi lập trình viên Java đều gặp phải</h2>
+<p>Bạn đã bao giờ tự hỏi: Làm thế nào ứng dụng Java có thể đọc file, ghi dữ liệu, hay trao đổi thông tin qua mạng? Khi tôi bắt đầu học Java, việc xử lý dữ liệu vào ra (I/O) là một trong những thứ làm tôi đau đầu nhất. Từ việc đọc một file text đơn giản đến gửi dữ liệu qua mạng, mọi thứ đều phức tạp và dễ mắc lỗi.</p>
+<p>Java I/O Streams ra đời như một giải pháp toàn diện cho vấn đề này. Bài viết này sẽ chia sẻ hành trình của tôi từ việc vật lộn với I/O cơ bản đến việc nắm vững Streams, và tại sao bạn cũng nên học chúng.</p>
+<h2>Java I/O Streams là gì và tại sao nó quan trọng?</h2>
+<p>I/O Streams trong Java là hệ thống xử lý dữ liệu vào ra một cách tuần tự và hiệu quả. Thay vì load toàn bộ dữ liệu vào memory cùng lúc, Streams xử lý dữ liệu từng phần như một dòng chảy liên tục.</p>
+<p>Theo góc nhìn của tôi, I/O Streams quan trọng vì nó giải quyết những vấn đề thực tế mà mọi ứng dụng đều gặp phải: đọc file, ghi log, trao đổi dữ liệu mạng, xử lý dữ liệu lớn mà không gây memory leak.</p>
+<h2>Hiểu về InputStream và OutputStream</h2>
+<p>Streams được chia làm hai loại chính: InputStream để đọc dữ liệu và OutputStream để ghi dữ liệu.</p>
+<p>InputStream như việc bạn "kéo" dữ liệu từ nguồn (file, mạng, memory...) vào chương trình. OutputStream ngược lại, "đẩy" dữ liệu từ chương trình ra ngoài.</p>
+<p>Trong dự án đầu tiên của tôi, tôi dùng FileInputStream để đọc file config:</p>
+<pre><code class="language-java">public void readConfig(String filePath) throws IOException {
+    try (FileInputStream fis = new FileInputStream(filePath)) {
+        int data;
+        while ((data = fis.read()) != -1) {
+            // Xử lý từng byte
+        }
+    }
+}
+</code></pre>
+<p>Đơn giản phải không? Chỉ cần mở stream, đọc từng byte, và đóng stream. Đây là nền tảng của tất cả I/O operations trong Java.</p>
+<h2>So sánh với các cách khác</h2>
+<p>Khi học Java I/O, tôi thường nghe mọi người khuyên dùng Scanner hoặc BufferedReader cho text. Vậy Streams khác gì?</p>
+<p>Scanner tiện cho parsing data (tách số, từ...) nhưng chậm và không phù hợp cho binary data. BufferedReader tốt cho text lớn nhưng chỉ đọc, không ghi.</p>
+<p>Streams linh hoạt hơn: xử lý được cả text và binary, cả đọc và ghi, và quan trọng là hiệu quả với dữ liệu lớn. Bạn có thể dùng BufferedInputStream để tăng tốc độ khi cần.</p>
+<h4>2. Character Streams (Reader/Writer)</h4>
+<p>Character streams xử lý dữ liệu dạng ký tự (16-bit Unicode), phù hợp cho file text.</p>
+<p><strong>FileReader - Đọc file text:</strong></p>
+<pre><code class="language-java">import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+public class ReadTextFile {
+    public static void main(String[] args) {
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("data.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.err.println("Lỗi đọc file: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p><strong>FileWriter - Ghi file text:</strong></p>
+<pre><code class="language-java">import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
+
+public class WriteTextFile {
+    public static void main(String[] args) {
+        try (BufferedWriter bw = new BufferedWriter(
+                new FileWriter("output.txt"))) {
+            bw.write("Dòng 1");
+            bw.newLine();
+            bw.write("Dòng 2");
+            bw.flush(); // Đảm bảo dữ liệu được ghi ngay
+        } catch (IOException e) {
+            System.err.println("Lỗi ghi file: " + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<h2>Buffered Streams - Tăng tốc độ xử lý</h2>
+<p>Một trong những bài học đắt giá của tôi là việc sử dụng Buffered Streams. Khi xử lý file lớn, việc đọc/ghi từng byte một gây chậm chạp vì mỗi lần đều phải truy cập disk.</p>
+<p>Buffered Streams giải quyết vấn đề này bằng cách tạo một "buffer" trung gian. Thay vì đọc/ghi từng byte, chương trình sẽ đọc/ghi cả một khối dữ liệu vào buffer, giảm đáng kể số lần truy cập I/O.</p>
+<p>Trong dự án xử lý log file, tôi đã tăng tốc độ xử lý từ vài phút xuống vài giây chỉ bằng cách thêm BufferedInputStream:</p>
+<pre><code class="language-java">public void processLargeFile(String filePath) throws IOException {
+    try (BufferedInputStream bis = new BufferedInputStream(
+            new FileInputStream(filePath))) {
+
+        byte[] buffer = new byte[8192]; // 8KB buffer
+        int bytesRead;
+
+        while ((bytesRead = bis.read(buffer)) != -1) {
+            // Xử lý cả khối dữ liệu cùng lúc
+            processData(buffer, bytesRead);
+        }
+    }
+}
+</code></pre>
+<p>Đây là kỹ thuật tối ưu mà tôi áp dụng trong mọi dự án liên quan đến I/O.</p>
+<pre><code class="language-java">import java.io.*;
+
+public class BufferedStreamExample {
+    public static void main(String[] args) {
+        // BufferedInputStream cho byte streams
+        try (BufferedInputStream bis = new BufferedInputStream(
+                new FileInputStream("largefile.dat"))) {
+            byte[] buffer = new byte[8192]; // 8KB buffer
+            int bytesRead;
+            while ((bytesRead = bis.read(buffer)) != -1) {
+                // Xử lý dữ liệu
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h2>Try-with-Resources - Tránh memory leak</h2>
+<p>Memory leak là ác mộng của mọi lập trình viên. Với Streams, nếu quên đóng stream, file sẽ vẫn mở và chiếm tài nguyên hệ thống.</p>
+<p>Java 7 giới thiệu try-with-resources để tự động đóng streams. Đây là một trong những tính năng tôi yêu thích nhất:</p>
+<pre><code class="language-java">public void safeFileOperation(String filePath) throws IOException {
+    try (FileInputStream fis = new FileInputStream(filePath);
+         BufferedInputStream bis = new BufferedInputStream(fis)) {
+
+        // Sử dụng streams an toàn
+        int data;
+        while ((data = bis.read()) != -1) {
+            // Xử lý dữ liệu
+        }
+    } // Tất cả streams tự động đóng ở đây
+}
+</code></pre>
+<p>Không cần finally block, không lo quên đóng stream. Clean và an toàn.</p>
+<h2>Ứng dụng thực tế trong lập trình mạng</h2>
+<p>Streams không chỉ dùng cho file - chúng là nền tảng của lập trình mạng trong Java. Khi làm dự án chat application, tôi dùng Streams để trao đổi dữ liệu giữa client và server.</p>
+<p>Streams cho phép xử lý dữ liệu mạng như một file stream: đọc/ghi liên tục, xử lý theo từng phần, không cần load toàn bộ message vào memory cùng lúc. Điều này quan trọng khi xử lý file lớn hoặc streaming data.</p>
+<h2>Bài học từ kinh nghiệm thực tế</h2>
+<p>Sau nhiều năm làm việc với Java I/O, tôi rút ra một số bài học quan trọng.</p>
+<p>Thứ nhất, luôn dùng try-with-resources. Tôi từng gặp bug memory leak vì quên đóng stream trong một dự án production, phải hotfix lúc nửa đêm.</p>
+<p>Thứ hai, Buffered Streams là bắt buộc cho performance. Khi xử lý file log hàng GB, việc thêm BufferedInputStream có thể tăng tốc 10-20 lần.</p>
+<p>Thứ ba, hiểu rõ sự khác biệt giữa byte và character streams. Dùng nhầm có thể gây lỗi encoding hoặc performance kém.</p>
+<h2>Kết luận: I/O Streams - Nền tảng của Java I/O</h2>
+<p>Java I/O Streams không chỉ là API - nó là mindset. Khi bạn hiểu Streams, việc xử lý file, network, hay bất kỳ I/O operation nào đều trở nên tự nhiên.</p>
+<p>Streams dạy chúng ta: xử lý dữ liệu từng phần, quản lý tài nguyên cẩn thận, và luôn nghĩ về hiệu suất. Đây là những kỹ năng nền tảng mà mọi Java developer cần có.</p>
+<p>Nếu bạn thấy bài viết hữu ích, hãy share cho bạn bè cùng học nhé! Chúc bạn code vui vẻ và thành công với Java!</p>
+<p><em>P.S: Bài viết này là phần đầu trong series "Java Network Programming". Bài tiếp theo chúng ta sẽ tìm hiểu về Java Networking - Socket programming.</em></p>
+7:["$","div",null,{"className":"pt-16 min-h-screen bg-[#f0f2f5]","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12","children":[["$","$L10",null,{"href":"/blog","className":"inline-flex items-center gap-2 text-[#b16cea] hover:text-[#ff5e69] mb-8 transition-colors font-medium","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],["$","span",null,{"children":"Quay lại Blog"}]]}],["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8","children":[["$","h1",null,{"className":"text-3xl md:text-5xl font-bold text-[#161513] mb-4 leading-tight","children":"Java I/O Streams - Khi ứng dụng cần trao đổi dữ liệu"}],["$","p",null,{"className":"text-lg text-gray-600 leading-relaxed mb-6","children":"Tìm hiểu Java I/O Streams - hệ thống xử lý dữ liệu vào ra hiệu quả trong lập trình mạng và ứng dụng thực tế."}],["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","Java",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Java"}],["$","span","I/O Streams",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"I/O Streams"}],["$","span","File Handling",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"File Handling"}],["$","span","Network Programming",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Network Programming"}]]}],["$","span",null,{"className":"text-sm text-gray-500 whitespace-nowrap","style":{"fontFamily":"var(--font-inter)"},"children":"2024-03-15"}]]}]]}],["$","article",null,{"className":"mb-12","children":["$","div",null,{"className":"prose prose-lg max-w-none prose-headings:text-[#161513] prose-p:text-[#374151] prose-p:leading-relaxed prose-a:text-[#b16cea] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#161513] prose-code:text-[#b16cea] prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#1f2937] prose-pre:rounded-lg prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4","dangerouslySetInnerHTML":{"__html":"$11"}}]}],"$L12","$L13"]}]}]
+14:I[43465,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"Image"]
+15:I[32771,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"default"]
+12:["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8","children":["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-6","children":[["$","div",null,{"className":"flex items-center gap-4","children":[["$","div",null,{"className":"relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex-shrink-0","children":["$","$L14",null,{"src":"/images/avatar/avatar.png","alt":"Truong Yen Phuong","fill":true,"className":"object-cover"}]}],["$","div",null,{"children":[["$","h3",null,{"className":"font-semibold text-[#161513] text-lg mb-1","children":"Truong Yen Phuong"}],["$","p",null,{"className":"text-sm text-gray-600","children":"Tổng hợp kinh nghiệm"}]]}]]}],["$","div",null,{"className":"flex items-center gap-4 flex-wrap","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-share2 lucide-share-2 w-5 h-5 text-[#b16cea]","aria-hidden":"true","children":[["$","circle","gq8acd",{"cx":"18","cy":"5","r":"3"}],["$","circle","w7nqdw",{"cx":"6","cy":"12","r":"3"}],["$","circle","1xt0gg",{"cx":"18","cy":"19","r":"3"}],["$","line","47mynk",{"x1":"8.59","x2":"15.42","y1":"13.51","y2":"17.49"}],["$","line","1n3mei",{"x1":"15.41","x2":"8.59","y1":"6.51","y2":"10.49"}],"$undefined"]}],["$","span",null,{"className":"font-semibold text-[#161513]","children":"Chia sẻ bài viết:"}]]}],["$","$L15",null,{"title":"Java I/O Streams - Khi ứng dụng cần trao đổi dữ liệu","slug":"java-basics"}]]}]]}]}]
+13:["$","div",null,{"className":"text-center","children":["$","$L10",null,{"href":"/blog","className":"inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] to-[#ff5e69] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity","children":[["$","svg",null,{"ref":"$undefined","xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"Xem tất cả bài viết"]}]}]
+c:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+16:I[93592,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"IconMark"]
+a:null
+e:[["$","title","0",{"children":"Java I/O Streams - Khi ứng dụng cần trao đổi dữ liệu - Blog"}],["$","meta","1",{"name":"description","content":"Tìm hiểu Java I/O Streams - hệ thống xử lý dữ liệu vào ra hiệu quả trong lập trình mạng và ứng dụng thực tế."}],["$","meta","2",{"name":"author","content":"Fang"}],["$","meta","3",{"name":"keywords","content":"Frontend Developer,UI/UX Designer,React,Next.js,JavaScript,Java,Portfolio"}],["$","meta","4",{"property":"og:title","content":"Truong Yen Phuong | Portfolio"}],["$","meta","5",{"property":"og:description","content":"Portfolio và Blog cá nhân về Frontend Development và UI/UX Design"}],["$","meta","6",{"property":"og:type","content":"website"}],["$","meta","7",{"name":"twitter:card","content":"summary"}],["$","meta","8",{"name":"twitter:title","content":"Truong Yen Phuong | Portfolio"}],["$","meta","9",{"name":"twitter:description","content":"Portfolio và Blog cá nhân về Frontend Development và UI/UX Design"}],["$","link","10",{"rel":"icon","href":"/portfolio-blog/favicon.ico?favicon.3546e4df.ico","sizes":"454x454","type":"image/x-icon"}],["$","$L16","11",{}]]

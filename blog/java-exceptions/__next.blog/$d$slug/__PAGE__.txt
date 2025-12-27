@@ -1,0 +1,117 @@
+1:"$Sreact.fragment"
+2:I[65645,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],""]
+8:I[43465,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"Image"]
+9:I[32771,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"default"]
+a:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"OutletBoundary"]
+b:"$Sreact.suspense"
+3:T1fc0,<h2>Khi TCP quá "chậm" cho ứng dụng real-time</h2>
+<p>Xin chào các bạn! Hôm nay mình muốn chia sẻ về hành trình học UDP Sockets trong Java. Đây là chủ đề mà lúc đầu mình thấy "sao lại có protocol không đảm bảo delivery thế này?"</p>
+<p>Mình còn nhớ lần đầu chơi game online. Ping cao, lag, disconnect liên tục. Mình ngồi nghĩ: tại sao game không thể mượt mà hơn? Rồi mình học được TCP vs UDP.</p>
+<p>TCP đáng tin cậy nhưng "chậm": 3-way handshake, acknowledgment, retransmission. Với game real-time, 200ms lag là không chấp nhận được.</p>
+<p>UDP thì khác: "fire and forget" - gửi đi không quan tâm kết quả. Nhanh như lightning! Nhưng trade-off: packets có thể mất, duplicate, hoặc đến sai thứ tự.</p>
+<p>Trong project game đơn giản, mình thử UDP cho position updates. Wow! Responsive hẳn ra. TCP cho login/chat (cần reliable), UDP cho gameplay (cần fast).</p>
+<p>Bài viết này là những gì mình học được về UDP - protocol "tốc độ cao, độ tin cậy thấp".</p>
+<h2>UDP là gì và tại sao quan trọng?</h2>
+<p>UDP (User Datagram Protocol) là giao thức "fire and forget" - gửi đi mà không quan tâm có đến đích hay không. Đây là lựa chọn hoàn hảo cho:</p>
+<ul>
+<li>Game online (mất vài vị trí player không sao)</li>
+<li>Video streaming (mất vài frame không ảnh hưởng)</li>
+<li>DNS queries (nhanh hơn quan trọng)</li>
+<li>IoT sensors (gửi dữ liệu định kỳ)</li>
+</ul>
+<p>Theo kinh nghiệm của tôi, UDP phù hợp khi "better late than never" - tốt hơn là không có gì cả.</p>
+<h2>UDP Server đầu tiên của mình - Sự khác biệt với TCP</h2>
+<p>Lúc đầu, mình nghĩ UDP server giống TCP: accept connections, handle clients. Sai hoàn toàn!</p>
+<p>UDP không có connections. Chỉ cần DatagramSocket và receive packets. Mình đã confused lắm khi implement UDP server đầu tiên.</p>
+<pre><code class="language-java">public class SimpleUDPServer {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket socket = new DatagramSocket(9876);
+        byte[] buffer = new byte[1024];
+
+        System.out.println("UDP Server đang chạy trên port 9876...");
+
+        while (true) {
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+            socket.receive(packet); // Blocking call
+
+            String message = new String(packet.getData(), 0, packet.getLength());
+            System.out.println("Nhận từ client: " + message);
+
+            // Có thể echo lại
+            socket.send(packet);
+        }
+    }
+}
+</code></pre>
+<p>So với TCP server phức tạp (accept, threads, connection management), UDP server đơn giản kinh khủng! Không connection state, không cleanup, chỉ send/receive packets.</p>
+<p>Mình đã build echo server trong 10 phút. TCP version mất 1 giờ với multi-threading.</p>
+<h3>UDP là gì?</h3>
+<p>UDP (User Datagram Protocol) là một giao thức không kết nối (connectionless) trong tầng Transport của mô hình OSI. Đặc điểm của UDP:</p>
+<ul>
+<li><strong>Không kết nối</strong>: Không cần thiết lập kết nối trước khi gửi dữ liệu</li>
+<li><strong>Nhanh</strong>: Overhead thấp, không có cơ chế ACK/retransmission</li>
+<li><strong>Không đảm bảo</strong>: Dữ liệu có thể bị mất, trùng lặp, hoặc đến sai thứ tự</li>
+<li><strong>Nhẹ</strong>: Phù hợp cho dữ liệu nhỏ, gửi thường xuyên</li>
+</ul>
+<h2>UDP cơ bản hoạt động thế nào?</h2>
+<p>UDP không cần thiết lập kết nối như TCP. Client gửi packet trực tiếp đến server, server nhận và có thể phản hồi. Đây là giao thức "fire and forget" - gửi đi mà không quan tâm kết quả.</p>
+<pre><code class="language-java">// UDP Server cơ bản
+DatagramSocket socket = new DatagramSocket(9876);
+byte[] buffer = new byte[1024];
+
+while (true) {
+    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+    socket.receive(packet);
+
+    String message = new String(packet.getData(), 0, packet.getLength());
+    System.out.println("Nhận: " + message);
+}
+</code></pre>
+<p>Client cũng đơn giản tương tự - chỉ cần tạo packet và send. Không có handshake như TCP, nên nhanh hơn nhưng không đảm bảo.</p>
+<h2>Broadcast và Multicast trong UDP</h2>
+<p>UDP hỗ trợ broadcast (gửi cho tất cả devices trong mạng) và multicast (gửi cho nhóm devices cụ thể). Đây là tính năng mạnh mẽ cho network discovery và group communication.</p>
+<p>Broadcast dùng cho network discovery, multicast dùng cho video streaming cho multiple clients. Multicast cần join group trước khi nhận messages, khác với broadcast là send trực tiếp.</p>
+<h3>So sánh TCP vs UDP</h3>
+<p>| Đặc điểm | TCP | UDP |
+|----------|-----|-----|
+| Kết nối | Có (Connection-oriented) | Không (Connectionless) |
+| Độ tin cậy | Đảm bảo | Không đảm bảo |
+| Thứ tự | Đảm bảo | Không đảm bảo |
+| Tốc độ | Chậm hơn | Nhanh hơn |
+| Overhead | Cao | Thấp |
+| Ứng dụng | HTTP, FTP, Email | DNS, Gaming, Streaming |</p>
+<h2>UDP trong thực tế - Khi speed beats reliability</h2>
+<p>UDP không phải "TCP kém hơn" - mà là công cụ cho use cases khác:</p>
+<p><strong>Gaming:</strong> Position updates, player movements. Mất 1-2 packets không sao, game vẫn mượt.</p>
+<p><strong>Video streaming:</strong> Audio/video packets. Mất vài frames không ảnh hưởng overall experience.</p>
+<p><strong>IoT sensors:</strong> Temperature readings, sensor data. Gửi liên tục, mất vài readings không critical.</p>
+<p><strong>DNS queries:</strong> Domain resolution. Speed quan trọng hơn reliability.</p>
+<p>Mình build simple game với TCP - lag kinh khủng. Chuyển position updates sang UDP - responsive hẳn ra! Đó là lúc mình hiểu: "right protocol for right job".</p>
+<h2>Những gì mình học được từ UDP implementation</h2>
+<p>Sau khi implement UDP trong game và streaming app, mình rút ra nhiều insights quan trọng.</p>
+<p><strong>Packet loss - Accept and handle:</strong>
+UDP packet loss là norm. Mình design systems để gracefully handle missing data. Game interpolate positions, streaming skip frames - user experience vẫn smooth.</p>
+<p><strong>Rate limiting - Don't flood network:</strong>
+UDP không có flow control. Mình implement rate limiting để avoid network congestion. Từng crash router vì send quá nhiều packets/second.</p>
+<p><strong>TCP + UDP combination:</strong>
+Perfect duo! TCP cho reliable operations (login, signaling), UDP cho real-time data (gameplay, voice). VoIP app của mình dùng TCP cho call setup, UDP cho audio streaming.</p>
+<p><strong>Performance vs Reliability trade-off:</strong>
+UDP dạy mình: không phải lúc nào cũng cần 100% reliability. Sometimes "good enough" is perfect.</p>
+<h2>Kết luận: UDP - Speed over reliability</h2>
+<p>UDP không phải "TCP version kém" - mà là specialized tool cho real-time applications. Khi speed matters more than perfect delivery, UDP shines.</p>
+<p>Network programming dạy mình: no universal solution, each protocol has trade-offs. Choose right tool for right job.</p>
+<p>Nếu bạn đang học networking và confuse về TCP vs UDP, đừng nản nhé! Mình cũng từng như bạn. Start with simple UDP echo server, implement game with position updates, build streaming app. Practice makes perfect.</p>
+<p><em>Lời khuyên cho sinh viên:</em></p>
+<ul>
+<li>Build UDP chat app (accept packet loss)</li>
+<li>Implement rate limiting</li>
+<li>Combine TCP + UDP in same application</li>
+<li>Test on real network (not just localhost)</li>
+</ul>
+<p><em>P.S: Đây là kinh nghiệm mình học được trong môn Java networking. Nếu bạn thấy bài viết hữu ích, hãy share cho bạn bè cùng học nhé!</em></p>
+0:{"buildId":"FFLv47kkbcVThbBtn6b5h","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"pt-16 min-h-screen bg-[#f0f2f5]","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12","children":[["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 text-[#b16cea] hover:text-[#ff5e69] mb-8 transition-colors font-medium","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],["$","span",null,{"children":"Quay lại Blog"}]]}],["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8","children":[["$","h1",null,{"className":"text-3xl md:text-5xl font-bold text-[#161513] mb-4 leading-tight","children":"Lập trình UDP Sockets trong Java"}],["$","p",null,{"className":"text-lg text-gray-600 leading-relaxed mb-6","children":"Tìm hiểu về UDP Sockets trong Java - giao thức không kết nối, nhanh chóng cho các ứng dụng real-time như game, streaming, và VoIP."}],["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","Java",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Java"}],["$","span","UDP",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"UDP"}],["$","span","DatagramSocket",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"DatagramSocket"}],["$","span","Network Programming",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Network Programming"}],["$","span","Real-time",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Real-time"}]]}],["$","span",null,{"className":"text-sm text-gray-500 whitespace-nowrap","style":{"fontFamily":"var(--font-inter)"},"children":"2024-03-30"}]]}]]}],["$","article",null,{"className":"mb-12","children":["$","div",null,{"className":"prose prose-lg max-w-none prose-headings:text-[#161513] prose-p:text-[#374151] prose-p:leading-relaxed prose-a:text-[#b16cea] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#161513] prose-code:text-[#b16cea] prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#1f2937] prose-pre:rounded-lg prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4","dangerouslySetInnerHTML":{"__html":"$3"}}]}],"$L4","$L5"]}]}],["$L6"],"$L7"]}],"loading":null,"isPartial":false}
+4:["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8","children":["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-6","children":[["$","div",null,{"className":"flex items-center gap-4","children":[["$","div",null,{"className":"relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex-shrink-0","children":["$","$L8",null,{"src":"/images/avatar/avatar.png","alt":"Truong Yen Phuong","fill":true,"className":"object-cover"}]}],["$","div",null,{"children":[["$","h3",null,{"className":"font-semibold text-[#161513] text-lg mb-1","children":"Truong Yen Phuong"}],["$","p",null,{"className":"text-sm text-gray-600","children":"Tổng hợp kinh nghiệm"}]]}]]}],["$","div",null,{"className":"flex items-center gap-4 flex-wrap","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-share2 lucide-share-2 w-5 h-5 text-[#b16cea]","aria-hidden":"true","children":[["$","circle","gq8acd",{"cx":"18","cy":"5","r":"3"}],["$","circle","w7nqdw",{"cx":"6","cy":"12","r":"3"}],["$","circle","1xt0gg",{"cx":"18","cy":"19","r":"3"}],["$","line","47mynk",{"x1":"8.59","x2":"15.42","y1":"13.51","y2":"17.49"}],["$","line","1n3mei",{"x1":"15.41","x2":"8.59","y1":"6.51","y2":"10.49"}],"$undefined"]}],["$","span",null,{"className":"font-semibold text-[#161513]","children":"Chia sẻ bài viết:"}]]}],["$","$L9",null,{"title":"Lập trình UDP Sockets trong Java","slug":"java-exceptions"}]]}]]}]}]
+5:["$","div",null,{"className":"text-center","children":["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] to-[#ff5e69] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"Xem tất cả bài viết"]}]}]
+6:["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js","async":true}]
+7:["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]
+c:null

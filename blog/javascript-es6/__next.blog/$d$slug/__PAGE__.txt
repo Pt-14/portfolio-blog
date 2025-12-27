@@ -1,0 +1,153 @@
+1:"$Sreact.fragment"
+2:I[65645,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],""]
+8:I[43465,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"Image"]
+9:I[32771,["/portfolio-blog/_next/static/chunks/3b0f1a99fc7a519e.js","/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js"],"default"]
+a:I[82321,["/portfolio-blog/_next/static/chunks/2ea5f535648d11e4.js","/portfolio-blog/_next/static/chunks/9c7410708860575f.js"],"OutletBoundary"]
+b:"$Sreact.suspense"
+3:T23ae,<h2>Khi mình nhận ra HTTP không đủ cho "thời gian thực"</h2>
+<p>Xin chào các bạn! Hôm nay mình muốn chia sẻ về hành trình học WebSocket của mình. Đây là một chủ đề mà lúc đầu mình nghĩ "không cần thiết", nhưng khi làm project chat app thì mới vỡ lẽ.</p>
+<p>Mình còn nhớ như in: dự án đầu tiên làm chat app cho nhóm, mình dùng polling - cứ mỗi giây gọi API một lần để check tin nhắn mới. Code thì đơn giản, nhưng ôi trời ơi:</p>
+<ul>
+<li>Pin laptop tụt nhanh như bay</li>
+<li>Server bị stress với hàng tá requests không cần thiết</li>
+<li>Tin nhắn đến chậm 1-2 giây</li>
+<li>Khi có 10 người online, server lag muốn chết</li>
+</ul>
+<p>Mình ngồi debug cả buổi tối, rồi vô tình đọc được về WebSocket. "Kết nối persistent? Bidirectional? Real-time?" - nghe có vẻ hay đấy! Sau khi chuyển sang WebSocket, wow:</p>
+<ul>
+<li>Latency giảm từ 2 giây xuống gần như tức thì</li>
+<li>Bandwidth giảm 90% (không còn polling vô nghĩa)</li>
+<li>Server thoải mái handle 100+ users</li>
+<li>User experience mượt mà hẳn ra</li>
+</ul>
+<p>Đó là khoảnh khắc "aha" khiến mình say mê WebSocket từ đó.</p>
+<h2>WebSocket đầu tiên của mình - Từ confuse đến "wow!"</h2>
+<p>Lúc đầu, WebSocket nghe có vẻ phức tạp lắm. "Persistent connection? Bidirectional? Full-duplex?" - mình đọc mãi mà không hiểu.</p>
+<p>Rồi mình quyết định thử implement. Code đầu tiên của mình:</p>
+<pre><code class="language-javascript">// WebSocket connection đầu tiên của mình
+const socket = new WebSocket('ws://localhost:8080/chat');
+
+socket.onopen = () => {
+  console.log('Yeah! Đã kết nối với server!');
+};
+
+socket.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+  console.log('Có tin nhắn mới:', message);
+};
+
+socket.onclose = () => {
+  console.log('Mất kết nối rồi!');
+};
+
+socket.onerror = (error) => {
+  console.error('Lỗi gì vậy trời:', error);
+};
+</code></pre>
+<p>Wow! Chỉ vài dòng code là đã có kết nối real-time. So với HTTP polling phức tạp, WebSocket đơn giản đến bất ngờ.</p>
+<p><strong>Điều làm mình ấn tượng nhất:</strong> WebSocket là "full-duplex" - cả client và server đều có thể gửi data bất cứ lúc nào, không cần chờ lượt như HTTP request/response.</p>
+<p><strong>So với HTTP:</strong></p>
+<ul>
+<li>HTTP: Request → Response → Close (như gọi điện thoại)</li>
+<li>WebSocket: Connect once → Trao đổi liên tục (như chat voice)</li>
+</ul>
+<p>Mình đã thử cả HTTP và WebSocket cho cùng một chat app. Sự khác biệt? WebSocket mượt mà, responsive; HTTP thì lag và tốn tài nguyên.</p>
+<h2>Học cách xử lý WebSocket events - Không đơn giản như mình nghĩ</h2>
+<p>Ban đầu mình nghĩ WebSocket events đơn giản: connect, send, receive, disconnect. Nhưng khi implement thực tế, mới biết có nhiều edge cases.</p>
+<p><strong>Những vấn đề mình gặp:</strong></p>
+<ol>
+<li><strong>Connection không đảm bảo thành công</strong> - Network có thể fail, server có thể down</li>
+<li><strong>Messages có thể đến không đúng thứ tự</strong> - Race conditions khi handle multiple events</li>
+<li><strong>Binary data phức tạp</strong> - Chuyển đổi Blob, ArrayBuffer đòi hỏi kiến thức về binary</li>
+</ol>
+<p>Mình đã mất cả ngày để debug lỗi connection. Ban đầu code mình:</p>
+<pre><code class="language-javascript">socket.onopen = () => {
+  console.log('Connected!');
+  // Gửi message ngay lập tức
+  socket.send('Hello server!');
+};
+
+socket.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Nhận:', data);
+};
+</code></pre>
+<p>Nhưng khi network unstable, connection fail mà mình không handle. User thấy app "treo" mà không biết lý do.</p>
+<p><strong>Bài học:</strong> Luôn check readyState trước khi send, implement proper error handling.</p>
+<p><strong>Gửi dữ liệu qua WebSocket:</strong>
+Mình thích nhất là có thể gửi mọi thứ: text, JSON, binary. Trong chat app, mình dùng JSON cho structured data:</p>
+<pre><code class="language-javascript">const message = {
+  type: 'chat',
+  user: 'Minh',
+  text: 'Hello everyone!',
+  timestamp: Date.now()
+};
+socket.send(JSON.stringify(message));
+</code></pre>
+<p><strong>Ready states - Debug helper:</strong>
+WebSocket có 4 states (0: Connecting, 1: Open, 2: Closing, 3: Closed). Mình thường log state để debug connection issues.</p>
+<h2>Chat app thực tế - Khi lý thuyết gặp thực tế</h2>
+<p>Sau khi học xong WebSocket cơ bản, mình quyết định làm một chat app thực tế. Đây là project đầu tiên khiến mình hiểu được giá trị của WebSocket.</p>
+<p><strong>Những gì mình implement:</strong></p>
+<ol>
+<li><strong>Real-time messaging</strong> - Messages hiển thị ngay lập tức, không cần refresh</li>
+<li><strong>User join/leave notifications</strong> - Server broadcast khi có user mới</li>
+<li><strong>Typing indicators</strong> - Thấy ai đang gõ chữ</li>
+<li><strong>Online status</strong> - Biết ai đang online</li>
+</ol>
+<p>Nhưng khi deploy lên production, mình gặp vấn đề lớn: connection drops. User tắt browser tab, network issues, server restart - tất cả đều break connection.</p>
+<p><strong>Auto reconnect - Lifesaver:</strong>
+Mình implement reconnect logic. Khi connection lost, tự động thử kết nối lại sau vài giây.</p>
+<pre><code class="language-javascript">class ChatApp {
+  constructor() {
+    this.connect();
+  }
+
+  connect() {
+    this.socket = new WebSocket('wss://chat.example.com');
+
+    this.socket.onopen = () => {
+      console.log('Kết nối lại thành công!');
+      // Resend unsent messages
+    };
+
+    this.socket.onclose = () => {
+      console.log('Mất kết nối, thử lại sau 3 giây...');
+      setTimeout(() => this.connect(), 3000);
+    };
+  }
+
+  sendMessage(text) {
+    if (this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify({ text, user: 'Minh' }));
+    } else {
+      // Queue message để send khi reconnect
+      this.messageQueue.push(text);
+    }
+  }
+}
+</code></pre>
+<p><strong>Heartbeat - Keep connection alive:</strong>
+WebSocket connections có thể "die silently". Mình thêm ping/pong mechanism để detect dead connections early.</p>
+<p>Trong chat app production, reconnect + heartbeat giúp user experience mượt mà. User không bao giờ thấy "connection lost" message nữa.</p>
+<h2>Những gì mình học được sau project chat app</h2>
+<p>Sau khi deploy chat app với WebSocket, mình gặp đủ loại vấn đề: connection drops, reconnect failures, silent disconnections. Nhưng đó cũng là lúc mình học được nhiều nhất.</p>
+<p><strong>Connection reliability - Không bao giờ assume:</strong>
+Mình từng nghĩ "WebSocket kết nối một lần là xong". Sai rồi! Network unstable, server restart, user close tab - tất cả break connection. Reconnect logic giờ là must-have trong mọi WebSocket app của mình.</p>
+<p><strong>Heartbeat mechanism - Detect silent failures:</strong>
+WebSocket có thể "die" mà không báo. Mình implement ping/pong để detect dead connections early. Bây giờ mình biết: luôn có health check cho real-time connections.</p>
+<p><strong>Message queuing - User experience matters:</strong>
+Khi connection lost, mình queue messages và resend khi reconnect. User không bao giờ mất tin nhắn nữa. Đây là chi tiết nhỏ nhưng impact lớn đến UX.</p>
+<p><strong>Graceful degradation - Plan B quan trọng:</strong>
+WebSocket fail? Fallback sang HTTP polling hoặc show offline mode. App không crash, user vẫn có thể dùng (với chức năng hạn chế).</p>
+<h2>Kết luận: WebSocket - Cửa sổ vào thế giới real-time</h2>
+<p>WebSocket không chỉ là "thay thế polling" - mà là cách để build interactive applications thực sự. Từ collaborative editors, live dashboards, đến gaming platforms - tất cả đều cần WebSocket.</p>
+<p>Trong hành trình học programming, WebSocket dạy mình: real-time features có vẻ cool, nhưng reliability phức tạp hơn nhiều. Network fragile, connections break, user expectations cao. Nhưng khi conquer được, cảm giác build được app "thời gian thực" thật tuyệt vời.</p>
+<p>Nếu bạn đang học JavaScript và thấy WebSocket confusing, đừng nản nhé! Mình cũng từng như bạn. Bắt đầu với simple chat app, implement reconnect, rồi dần thêm features. Practice nhiều, debug nhiều, bạn sẽ master được.</p>
+<p><em>P.S: Đây là những gì mình học được trong môn JavaScript nâng cao. Nếu bạn thấy bài viết hữu ích, hãy share cho bạn bè cùng học nhé!</em></p>
+0:{"buildId":"FFLv47kkbcVThbBtn6b5h","rsc":["$","$1","c",{"children":[["$","div",null,{"className":"pt-16 min-h-screen bg-[#f0f2f5]","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12","children":[["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 text-[#b16cea] hover:text-[#ff5e69] mb-8 transition-colors font-medium","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],["$","span",null,{"children":"Quay lại Blog"}]]}],["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-8 md:p-12 mb-8","children":[["$","h1",null,{"className":"text-3xl md:text-5xl font-bold text-[#161513] mb-4 leading-tight","children":"JavaScript WebSockets - Giao tiếp Real-time"}],["$","p",null,{"className":"text-lg text-gray-600 leading-relaxed mb-6","children":"Tìm hiểu về WebSocket API trong JavaScript - cách tạo kết nối hai chiều real-time giữa client và server cho chat, gaming, và các ứng dụng real-time."}],["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-4","children":[["$","div",null,{"className":"flex flex-wrap gap-2","children":[["$","span","JavaScript",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"JavaScript"}],["$","span","WebSocket",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"WebSocket"}],["$","span","Real-time",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Real-time"}],["$","span","Network Programming",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Network Programming"}],["$","span","Bidirectional",{"className":"px-3 py-1.5 bg-gray-100 text-gray-700 rounded-full text-sm font-medium","children":"Bidirectional"}]]}],["$","span",null,{"className":"text-sm text-gray-500 whitespace-nowrap","style":{"fontFamily":"var(--font-inter)"},"children":"2024-04-15"}]]}]]}],["$","article",null,{"className":"mb-12","children":["$","div",null,{"className":"prose prose-lg max-w-none prose-headings:text-[#161513] prose-p:text-[#374151] prose-p:leading-relaxed prose-a:text-[#b16cea] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#161513] prose-code:text-[#b16cea] prose-code:bg-gray-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-[#1f2937] prose-pre:rounded-lg prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-4","dangerouslySetInnerHTML":{"__html":"$3"}}]}],"$L4","$L5"]}]}],["$L6"],"$L7"]}],"loading":null,"isPartial":false}
+4:["$","div",null,{"className":"bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8","children":["$","div",null,{"className":"flex items-center justify-between flex-wrap gap-6","children":[["$","div",null,{"className":"flex items-center gap-4","children":[["$","div",null,{"className":"relative w-16 h-16 rounded-full overflow-hidden bg-gradient-to-br from-indigo-400 to-purple-500 flex-shrink-0","children":["$","$L8",null,{"src":"/images/avatar/avatar.png","alt":"Truong Yen Phuong","fill":true,"className":"object-cover"}]}],["$","div",null,{"children":[["$","h3",null,{"className":"font-semibold text-[#161513] text-lg mb-1","children":"Truong Yen Phuong"}],["$","p",null,{"className":"text-sm text-gray-600","children":"Tổng hợp kinh nghiệm"}]]}]]}],["$","div",null,{"className":"flex items-center gap-4 flex-wrap","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-share2 lucide-share-2 w-5 h-5 text-[#b16cea]","aria-hidden":"true","children":[["$","circle","gq8acd",{"cx":"18","cy":"5","r":"3"}],["$","circle","w7nqdw",{"cx":"6","cy":"12","r":"3"}],["$","circle","1xt0gg",{"cx":"18","cy":"19","r":"3"}],["$","line","47mynk",{"x1":"8.59","x2":"15.42","y1":"13.51","y2":"17.49"}],["$","line","1n3mei",{"x1":"15.41","x2":"8.59","y1":"6.51","y2":"10.49"}],"$undefined"]}],["$","span",null,{"className":"font-semibold text-[#161513]","children":"Chia sẻ bài viết:"}]]}],["$","$L9",null,{"title":"JavaScript WebSockets - Giao tiếp Real-time","slug":"javascript-es6"}]]}]]}]}]
+5:["$","div",null,{"className":"text-center","children":["$","$L2",null,{"href":"/blog","className":"inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] to-[#ff5e69] text-white rounded-lg font-semibold hover:opacity-90 transition-opacity","children":[["$","svg",null,{"xmlns":"http://www.w3.org/2000/svg","width":24,"height":24,"viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","strokeWidth":2,"strokeLinecap":"round","strokeLinejoin":"round","className":"lucide lucide-arrow-left w-5 h-5","aria-hidden":"true","children":[["$","path","1l729n",{"d":"m12 19-7-7 7-7"}],["$","path","x3x0zl",{"d":"M19 12H5"}],"$undefined"]}],"Xem tất cả bài viết"]}]}]
+6:["$","script","script-0",{"src":"/portfolio-blog/_next/static/chunks/88ef56c00aa0fcf7.js","async":true}]
+7:["$","$La",null,{"children":["$","$b",null,{"name":"Next.MetadataOutlet","children":"$@c"}]}]
+c:null
