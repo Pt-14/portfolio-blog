@@ -1,12 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, X } from 'lucide-react';
-import { useState } from 'react';
-import HeroSection from '@/components/HeroSection';
-import ServicesSection from '@/components/ServicesSection';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useState } from 'react';
+import { X } from 'lucide-react';
 
 const certificates = [
   {
@@ -69,9 +66,49 @@ const certificates = [
       en: 'Networking Basics course helped me understand fundamental network concepts, protocols, and communication on Ethernet networks. I learned about IP addresses (IPv4/IPv6), how routers connect networks, and secure wireless network configuration.',
     },
   },
+  {
+    id: 'survival-thai',
+    image: '/images/certificate/SurvivalThai.jpg',
+    title: {
+      vi: 'Survival Thai',
+      en: 'Survival Thai',
+    },
+    issuer: {
+      vi: 'Chulalongkorn University - CHULA MOOC',
+      en: 'Chulalongkorn University - CHULA MOOC',
+    },
+    date: {
+      vi: 'Ngày cấp: 16/09/2024',
+      en: 'Issued: Sep 16, 2024',
+    },
+    description: {
+      vi: 'Khóa học Survival Thai giúp tôi nắm vững các kỹ năng giao tiếp tiếng Thái cơ bản trong cuộc sống hàng ngày. Tôi học được cách chào hỏi, giới thiệu bản thân và sử dụng từ vựng trong các tình huống thực tế như mua sắm, ăn uống và hỏi đường.',
+      en: 'Survival Thai course helped me master basic Thai communication skills for daily life. I learned greetings, self-introduction, and vocabulary for real situations like shopping, dining, and asking for directions.',
+    },
+  },
+  {
+    id: 'thai-on-campus',
+    image: '/images/certificate/ThaionCampus.jpg',
+    title: {
+      vi: 'Thai on Campus',
+      en: 'Thai on Campus',
+    },
+    issuer: {
+      vi: 'Chulalongkorn University - CHULA MOOC',
+      en: 'Chulalongkorn University - CHULA MOOC',
+    },
+    date: {
+      vi: 'Ngày cấp: 17/09/2024',
+      en: 'Issued: Sep 17, 2024',
+    },
+    description: {
+      vi: 'Khóa học Thai on Campus giúp tôi phát triển kỹ năng tiếng Thái trong môi trường học thuật. Tôi học được các thuật ngữ chuyên ngành, cách diễn đạt trong lớp học và kỹ năng thảo luận, thuyết trình cũng như tương tác với giảng viên và bạn học.',
+      en: 'Thai on Campus course helped me develop Thai language skills in academic settings. I learned specialized terminology, classroom expressions, and skills for discussions, presentations, and interactions with professors and classmates.',
+    },
+  },
 ];
 
-export default function Home() {
+export default function CertificatesPage() {
   const { language } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -83,86 +120,62 @@ export default function Home() {
     setSelectedImage(null);
   };
 
-  const displayedCertificates = certificates.slice(0, 3);
-
   return (
     <>
-    <div className="pt-16">
-      {/* Hero Section */}
-      <HeroSection />
-
-      {/* Services Section */}
-      <ServicesSection />
-
-        {/* Featured Certificates Section */}
-      <section className="py-20 bg-[#f0f2f5]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="pt-16 min-h-screen bg-[#f0f2f5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                {language === 'vi' ? 'Chứng chỉ' : 'Certificates'}
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                {language === 'vi'
-                  ? 'Các chứng chỉ và bằng cấp tôi đã đạt được trong quá trình học tập và phát triển kỹ năng.'
-                  : 'Certificates and credentials I have achieved during my learning and skill development journey.'}
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold text-[#161513] mb-4">
+              {language === 'vi' ? 'Chứng chỉ' : 'Certificates'}
+            </h1>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {displayedCertificates.map((cert) => (
+          {/* Certificates Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            {certificates.map((cert) => (
               <div
-                  key={cert.id}
-                  className="certificate-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg"
+                key={cert.id}
+                className="certificate-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg"
               >
-                  {/* Certificate Image */}
-                  <div
-                    className="relative w-full overflow-hidden bg-gray-50 cursor-pointer"
-                    onClick={() => openModal(cert.image)}
-                  >
-                    <Image
-                      src={cert.image}
-                      alt={cert.title[language]}
-                      width={400}
-                      height={533}
-                      className="object-contain w-full h-auto"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
+                {/* Certificate Image */}
+                <div 
+                  className="relative w-full overflow-hidden bg-gray-50 cursor-pointer"
+                  onClick={() => openModal(cert.image)}
+                >
+                  <Image
+                    src={cert.image}
+                    alt={cert.title[language]}
+                    width={400}
+                    height={533}
+                    className="object-contain w-full h-auto"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
 
-                  {/* Certificate Info */}
+                {/* Certificate Info */}
                 <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <p className="text-sm text-gray-600 font-medium">
-                        {cert.issuer[language]}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {cert.date[language]}
-                      </p>
-                    </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-sm text-gray-600 font-medium">
+                      {cert.issuer[language]}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {cert.date[language]}
+                    </p>
+                  </div>
 
-                    <h3 className="text-xl font-bold text-[#161513] mb-4">
-                      {cert.title[language]}
+                  <h3 className="text-xl font-bold text-[#161513] mb-4">
+                    {cert.title[language]}
                   </h3>
 
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                      {cert.description[language]}
-                    </p>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    {cert.description[language]}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-12">
-            <Link
-                href="/certificates"
-                className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
-            >
-                {language === 'vi' ? 'Xem tất cả chứng chỉ' : 'View All Certificates'}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
         </div>
-      </section>
       </div>
 
       {/* Image Modal */}
@@ -188,7 +201,7 @@ export default function Home() {
               onClick={(e) => e.stopPropagation()}
             />
           </div>
-    </div>
+        </div>
       )}
     </>
   );
