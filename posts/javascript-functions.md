@@ -1,280 +1,573 @@
 ---
-title: "JavaScript Network Module Patterns"
-date: "2024-04-30"
-excerpt: "Tìm hiểu cách tổ chức code network với JavaScript modules: xây dựng API client, WebSocket manager và các utility giúp codebase dễ bảo trì và mở rộng."
-category: "JavaScript"
-tags: ["JavaScript", "Modules", "Network Programming", "Code Organization", "API Client"]
+
+title:
+  vi: "JavaScript Functions - Trái tim của lập trình"
+  en: "JavaScript Functions - The Heart of Programming"
+date: "2025-11-25"
+excerpt:
+  vi: "Khám phá sâu về JavaScript Functions - từ function declarations, expressions, đến arrow functions, closures, và higher-order functions."
+  en: "Deep dive into JavaScript Functions - from function declarations, expressions, to arrow functions, closures, and higher-order functions."
+category:
+  vi: "JavaScript"
+  en: "JavaScript"
+tags: ["JavaScript", "Functions", "Closures", "Higher-Order Functions", "Arrow Functions"]
 image: "/images/blog/pattern.jpg"
----
+content:
+  vi: |
+    ## Khi mình nhận ra "function" không chỉ là "hàm"
 
-## Hành trình từ "code spaghetti" đến modular network architecture
+    Xin chào các bạn! Hôm nay mình muốn chia sẻ về hành trình học JavaScript Functions - một chủ đề tưởng chừng đơn giản nhưng ẩn chứa nhiều kiến thức sâu sắc. Lúc đầu mình nghĩ "function là gì khó đâu", nhưng khi code thực tế mới vỡ lẽ: functions là foundation của JavaScript programming.
+
+    Mình còn nhớ ngày đầu tiên học JavaScript. Teacher nói về functions, mình nghĩ "đơn giản lắm, cứ viết function rồi gọi thôi". Nhưng khi làm project đầu tiên - một todo app, mình mới hiểu: functions không chỉ là code blocks, mà là cách tổ chức logic, reuse code, và handle complexity.
 
-Tôi còn nhớ như in lần đầu tiên làm việc với một dự án JavaScript có quy mô lớn. File `network.js` của tôi lên đến 1500 dòng code! Fetch calls nằm rải rác đây đó, WebSocket connections xen kẽ với business logic, error handling thì hỗn loạn khắp nơi.
+    Bài viết này là tổng hợp những gì mình học được về JavaScript functions, từ basic đến advanced concepts.
 
-Mỗi khi cần sửa một API endpoint, tôi phải scroll qua scroll lại trong đống code khổng lồ đó, sợ rằng thay đổi này sẽ break cái kia. Khi team thêm một developer mới, họ mất cả ngày để hiểu cấu trúc. Thêm một feature mới? Conflict code là chuyện thường xuyên.
+    ## Function Declaration vs Function Expression - Sự khác biệt tinh tế
 
-Đó chính là lúc tôi nhận ra: network code không thể viết theo kiểu "tất cả trong một chỗ". Khi codebase phát triển, việc tổ chức thành modules không chỉ là "best practice" - mà là yếu tố sống còn cho sự tồn vong của dự án.
+    Lúc đầu mình confuse với 2 cách khai báo functions. "Tại sao có 2 cách? Cách nào tốt hơn?"
 
-Trong dự án e-commerce mà tôi từng tham gia, team chúng tôi có hơn 20 API endpoints khác nhau. Ban đầu dùng single file approach, kết quả là:
-- Bug khó track và reproduce
-- Feature conflicts liên tục
-- Testing gần như impossible
-- Onboarding developer mới mất 3-4 ngày
+    **Function Declaration:**
+    ```javascript
+    function tinhTong(a, b) {
+      return a + b;
+    }
+    ```
 
-Sau khi refactor thành modular structure, productivity tăng vọt. Mỗi module có trách nhiệm riêng biệt, testing dễ dàng, và team có thể work parallel mà không lo conflict. Đó là khoảnh khắc "aha" khiến tôi quyết định viết bài này.
+    **Function Expression:**
+    ```javascript
+    const tinhTong = function(a, b) {
+      return a + b;
+    };
+    ```
 
-Bạn đã bao giờ trải qua những khó khăn tương tự? Nếu có, thì bài viết này là dành cho bạn.
+    Sự khác biệt? Declaration được hoisted, expression thì không. Mình từng debug cả giờ vì gọi function trước khi declare. Bây giờ mình hiểu: Declaration an toàn hơn cho code structure.
 
----
+    ## Arrow Functions - Syntax ngắn gọn nhưng khác biệt lớn
 
-## Tư duy tổ chức network theo modules
+    ES6 arrow functions làm mình excited. Syntax ngắn gọn, nhưng behavior khác biệt hoàn toàn.
 
-Một cấu trúc network module thường bao gồm:
-- **API Client**: chịu trách nhiệm giao tiếp HTTP
-- **Domain-specific APIs**: xử lý logic theo từng domain (users, products, etc.)
-- **WebSocket Manager**: quản lý realtime connection
-- **Utilities**: các hàm dùng chung như retry, debounce, error handling
+    ```javascript
+    // Traditional function
+    function tinhBinhPhuong(x) {
+      return x * x;
+    }
 
-Cách tổ chức này giúp codebase:
-- Clean hơn
-- Dễ test
-- Dễ tái sử dụng
-- Dễ mở rộng trong tương lai
+    // Arrow function
+    const tinhBinhPhuong = (x) => x * x;
+
+    // Arrow với nhiều statements
+    const xuLyDuLieu = (data) => {
+      console.log('Đang xử lý:', data);
+      return data.toUpperCase();
+    };
+    ```
+
+    **Điều làm mình "bất ngờ":** Arrow functions không có `this` riêng. Mình từng bug cả ngày vì `this` trong arrow function refer đến parent scope thay vì object hiện tại.
+
+    ```javascript
+    const obj = {
+      name: 'Minh',
+      greet: function() {
+        setTimeout(function() {
+          console.log('Hello ' + this.name); // undefined!
+        }, 1000);
+      }
+    };
+    ```
+
+    Vs arrow function:
+    ```javascript
+    const obj = {
+      name: 'Minh',
+      greet: function() {
+        setTimeout(() => {
+          console.log('Hello ' + this.name); // "Minh"
+        }, 1000);
+      }
+    };
+    ```
+
+    Bây giờ mình dùng arrow functions everywhere, nhưng luôn cẩn thận với `this`.
+
+    ## Default Parameters - Giá trị mặc định thông minh
+
+    ES6 default parameters cứu mình khỏi undefined errors.
+
+    ```javascript
+    function guiEmail(to, subject = 'No Subject', body = '') {
+      console.log(`Sending to ${to}: ${subject}`);
+      // Gửi email logic
+    }
+
+    guiEmail('minh@example.com'); // OK, dùng default values
+    guiEmail('minh@example.com', 'Hello'); // Override subject
+    ```
+
+    Trước ES6, mình phải check undefined manually. Bây giờ code clean hơn nhiều.
+
+    ## Rest Parameters - Tham số động
+
+    Khi cần accept số lượng parameters không xác định:
+
+    ```javascript
+    function tinhTong(...numbers) {
+      return numbers.reduce((sum, num) => sum + num, 0);
+    }
+
+    console.log(tinhTong(1, 2, 3)); // 6
+    console.log(tinhTong(1, 2, 3, 4, 5)); // 15
+    ```
+
+    Rest parameters thay thế `arguments` object cũ. Mình thích vì nó là real array, có thể dùng map, filter, etc.
+
+    ## Closures - Concept khó hiểu nhất của mình
+
+    Closures là lúc mình đau đầu nhất. "Function trong function? Access outer variables?" - confuse lắm!
+
+    ```javascript
+    function createCounter() {
+      let count = 0;
+
+      return function() {
+        count++;
+        return count;
+      };
+    }
+
+    const counter = createCounter();
+    console.log(counter()); // 1
+    console.log(counter()); // 2
+    ```
+
+    Inner function "remember" outer scope variables. Mình dùng closures cho private variables, tạo factory functions, và implement modules.
+
+    **Private variables với closures:**
+    ```javascript
+    function createBankAccount(initialBalance) {
+      let balance = initialBalance;
+
+      return {
+        deposit: function(amount) {
+          balance += amount;
+          return balance;
+        },
+        withdraw: function(amount) {
+          if (balance >= amount) {
+            balance -= amount;
+            return balance;
+          }
+          return 'Insufficient funds';
+        },
+        getBalance: function() {
+          return balance;
+        }
+      };
+    }
+
+    const account = createBankAccount(1000);
+    account.deposit(500); // 1500
+    console.log(account.balance); // undefined - private!
+    ```
+
+    Closures bây giờ là tool yêu thích của mình.
+
+    ## Higher-Order Functions - Functions as Parameters
+
+    Concept làm mình "wow" nhất: functions có thể nhận functions khác làm parameter.
+
+    ```javascript
+    function xuLyMang(arr, callback) {
+      const result = [];
+      for (let item of arr) {
+        result.push(callback(item));
+      }
+      return result;
+    }
+
+    const numbers = [1, 2, 3, 4, 5];
+    const squared = xuLyMang(numbers, x => x * x);
+    console.log(squared); // [1, 4, 9, 16, 25]
+    ```
+
+    Array methods như map, filter, reduce đều là higher-order functions. Mình dùng chúng hàng ngày.
+
+    **Custom map function:**
+    ```javascript
+    function myMap(arr, mapper) {
+      const result = [];
+      for (let i = 0; i < arr.length; i++) {
+        result.push(mapper(arr[i], i, arr));
+      }
+      return result;
+    }
 
----
+    const doubled = myMap([1, 2, 3], x => x * 2);
+    console.log(doubled); // [2, 4, 6]
+    ```
 
-## API Client - Nền tảng của modular network architecture
+    ## Function Composition - Ghép functions lại với nhau
 
-API Client không chỉ là code - nó là investment cho future scalability. Trong kinh nghiệm của tôi, một API client tốt cần những yếu tố sau:
+    Advanced technique: combine multiple functions thành một pipeline.
 
-**Thứ nhất: Consistent error handling**
-Tôi từng gặp phải tình huống response.ok check bị miss ở một số endpoints, dẫn đến application crash. Từ đó, tôi luôn implement error handling ở layer thấp nhất.
+    ```javascript
+    const compose = (...functions) => x =>
+      functions.reduceRight((acc, fn) => fn(acc), x);
 
-**Thứ hai: Request/response interceptors**
-Authentication headers, logging, caching - tất cả nên được handle ở một chỗ. Trong dự án thực tế, tôi có interceptor để tự động refresh JWT token khi expired.
+    const add = x => x + 1;
+    const multiply = x => x * 2;
+    const square = x => x * x;
 
-**Thứ ba: Timeout management**
-Network requests không thể chờ mãi mãi. Timeout giúp user experience tốt hơn và tránh blocking UI.
+    const complexCalc = compose(square, multiply, add);
+    console.log(complexCalc(3)); // ((3 + 1) * 2)² = 64
+    ```
 
-**Thứ tư: Retry mechanism**
-Network không bao giờ reliable 100%. Exponential backoff retry đã cứu tôi khỏi nhiều production issues.
+    Function composition giúp code declarative và reusable.
 
-Khi implement API client, tôi luôn nghĩ về future. API này sẽ scale như thế nào? Team sẽ dùng nó ra sao? Câu trả lời quyết định architecture decisions.
+    ## Immediately Invoked Function Expressions (IIFE)
 
-Trong dự án gần nhất, API client của tôi đã evolve từ simple class thành một sophisticated system với:
-- Automatic retry với exponential backoff
-- Request queuing cho rate limiting
-- Response caching layer
-- Comprehensive logging
+    Pattern cũ nhưng vẫn hữu ích: function chạy ngay sau khi define.
 
-Đầu tư thời gian build API client tốt từ đầu luôn đáng giá hơn refactor sau này.
+    ```javascript
+    (function() {
+      const privateVar = 'Secret';
+      console.log('IIFE executed');
+    })();
 
-## Specialized API Modules - Khi một API Client chưa đủ
+    // Arrow version
+    (() => {
+      console.log('Arrow IIFE');
+    })();
+    ```
 
-Sau khi có API Client, bạn sẽ nhanh chóng nhận ra: gọi client.get('/users') trực tiếp trong component không phải ý tưởng hay. Tại sao?
+    Mình dùng IIFE để create private scope, tránh global pollution.
 
-Trong dự án thực tế, user operations không chỉ là CRUD đơn thuần. Có validation, data transformation, caching, error mapping. Nếu viết tất cả trong component, code sẽ trở nên messy và hard to test.
+    ## Callbacks, Promises, và Async Functions
 
-Tôi đã từng thấy một component có 200+ dòng code chỉ để handle user management. Login, logout, profile update, password change - tất cả lẫn lộn với UI logic.
+    Modern JavaScript: async functions kết hợp với callbacks và promises.
 
-Giải pháp? Specialized API modules cho từng domain. Mỗi module handle business logic của domain đó, trong khi component chỉ cần call methods có nghĩa.
+    ```javascript
+    // Callback style
+    function fetchUser(id, callback) {
+      setTimeout(() => {
+        callback({ id, name: 'User ' + id });
+      }, 1000);
+    }
 
-Trong dự án e-commerce, tôi có:
-- UserAPI: authentication, profile management
-- ProductAPI: catalog, inventory, pricing
-- OrderAPI: checkout, payment, shipping
-- NotificationAPI: email, push notifications
+    // Promise style
+    function fetchUser(id) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ id, name: 'User ' + id });
+        }, 1000);
+      });
+    }
+
+    // Async/await style
+    async function getUserData() {
+      try {
+        const user = await fetchUser(1);
+        console.log(user);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    ```
 
-Cách tổ chức này mang lại:
-- **Separation of concerns**: Network logic tách biệt với UI
-- **Testability**: Dễ test business logic độc lập
-- **Reusability**: API modules dùng lại cho multiple components
-- **Maintainability**: Thay đổi API endpoint không ảnh hưởng UI
+    Async functions làm async code trông như sync code. Perfect!
+
+    ## Những gì mình học được sau 2 năm code JavaScript
+
+    Functions không chỉ là syntax - mà là programming paradigm. Từ basic functions đến advanced concepts như closures, higher-order functions - tất cả đều thay đổi cách mình think about code.
+
+    **Code reusability:** Functions giúp break down complex problems thành smaller, manageable pieces.
+
+    **Abstraction:** Hide implementation details, expose clean interfaces.
+
+    **Composition:** Combine simple functions thành complex behaviors.
 
-Tôi thường design API modules theo business use cases chứ không phải theo technical endpoints. Ví dụ: AuthAPI có methods như login(), logout(), refreshToken() thay vì chỉ post('/auth/login').
+    **Maintainability:** Well-structured functions dễ test, debug, và maintain.
 
-Đây là pattern đã chứng minh hiệu quả qua nhiều dự án của tôi.
+    JavaScript functions dạy mình: programming không chỉ là solve problems, mà là solve them elegantly.
 
-## WebSocket Manager - Khi realtime trở thành phức tạp
+    Nếu bạn đang học JavaScript, đừng skip functions. Hãy practice: viết functions, refactor code thành functions, experiment với closures. Functions sẽ trở thành best friend của bạn.
 
-WebSocket ban đầu nghe có vẻ đơn giản: connect và listen. Nhưng trong production, mọi thứ phức tạp hơn nhiều.
+    *P.S: Functions là foundation của JavaScript. Master chúng, bạn sẽ code được mọi thứ!*
+  en: |
+    ## When I Realized "Function" is More Than Just "Function"
 
-Tôi từng build một chat application với WebSocket. Ban đầu chỉ là socket.onmessage đơn giản. Nhưng khi deploy production:
+    Hello everyone! Today I want to share my journey learning JavaScript Functions - a topic that seems simple but contains profound knowledge. Initially I thought "functions aren't hard", but when coding in practice I realized: functions are the foundation of JavaScript programming.
 
-- Connection drops liên tục do network issues
-- Server restart khiến tất cả clients disconnect
-- Message ordering bị mess up
-- Memory leaks từ event listeners
-- No error handling khi connection failed
+    I still remember my first day learning JavaScript. Teacher talked about functions, I thought "very simple, just write function and call it". But when working on my first project - a todo app, I finally understood: functions are not just code blocks, but ways to organize logic, reuse code, and handle complexity.
 
-Đó là lúc tôi nhận ra: WebSocket cần một manager layer. Một system để handle:
+    This article is a compilation of everything I've learned about JavaScript functions, from basic to advanced concepts.
 
-**Connection management**
-- Auto reconnect với exponential backoff
-- Connection pooling cho high-traffic apps
-- Health checks và heartbeat
+    ## Function Declaration vs Function Expression - Subtle Differences
 
-**Message handling**
-- Message queuing khi disconnected
-- Duplicate message detection
-- Message ordering guarantees
+    Initially I was confused by the 2 ways to declare functions. "Why are there 2 ways? Which one is better?"
 
-**Error handling**
-- Network timeouts
-- Server errors
-- Invalid message formats
+    **Function Declaration:**
+    ```javascript
+    function calculateSum(a, b) {
+      return a + b;
+    }
+    ```
 
-**Lifecycle management**
-- Clean up connections khi component unmount
-- Memory leak prevention
-- Resource pooling
+    **Function Expression:**
+    ```javascript
+    const calculateSum = function(a, b) {
+      return a + b;
+    };
+    ```
 
-Trong dự án chat app, WebSocket Manager của tôi đã evolve thành một sophisticated system:
-- Auto reconnect với smart backoff
-- Message deduplication
-- Typing indicators
-- Online/offline status
-- File transfer over WebSocket
+    The difference? Declaration is hoisted, expression is not. I once debugged for hours because I called a function before declaring it. Now I understand: Declaration is safer for code structure.
 
-Nếu bạn đang làm realtime features, đừng under-estimate complexity. WebSocket Manager là investment đáng giá cho long-term maintainability.
+    ## Arrow Functions - Concise Syntax but Big Differences
 
-## Network Utility Functions - Những helper không thể thiếu
+    ES6 arrow functions excited me. Concise syntax, but completely different behavior.
 
-Khi làm việc với network requests, bạn sẽ thấy mình lặp lại một số patterns. Đó là lúc cần utility functions.
+    ```javascript
+    // Traditional function
+    function calculateSquare(x) {
+      return x * x;
+    }
 
-**Retry logic - Khi network không reliable**
-Tôi từng có production bug vì API call failed một lần duy nhất do temporary network issue. User refresh page, mọi thứ work normally. Từ đó, tôi implement retry cho tất cả critical requests.
+    // Arrow function
+    const calculateSquare = (x) => x * x;
+
+    // Arrow with multiple statements
+    const processData = (data) => {
+      console.log('Processing:', data);
+      return data.toUpperCase();
+    };
+    ```
+
+    **What surprised me:** Arrow functions don't have their own `this`. I once had bugs for a whole day because `this` in arrow function refers to parent scope instead of current object.
+
+    ```javascript
+    const obj = {
+      name: 'Minh',
+      greet: function() {
+        setTimeout(function() {
+          console.log('Hello ' + this.name); // undefined!
+        }, 1000);
+      }
+    };
+    ```
+
+    With arrow function:
+    ```javascript
+    const obj = {
+      name: 'Minh',
+      greet: function() {
+        setTimeout(() => {
+          console.log('Hello ' + this.name); // "Minh"
+        }, 1000);
+      }
+    };
+    ```
+
+    Now I use arrow functions everywhere, but I'm always careful with `this`.
+
+    ## Default Parameters - Smart Default Values
+
+    ES6 default parameters saved me from undefined errors.
+
+    ```javascript
+    function sendEmail(to, subject = 'No Subject', body = '') {
+      console.log(`Sending to ${to}: ${subject}`);
+      // Send email logic
+    }
+
+    sendEmail('minh@example.com'); // OK, uses default values
+    sendEmail('minh@example.com', 'Hello'); // Override subject
+    ```
+
+    Before ES6, I had to manually check for undefined. Now code is much cleaner.
+
+    ## Rest Parameters - Dynamic Parameters
+
+    When you need to accept an undetermined number of parameters:
+
+    ```javascript
+    function calculateSum(...numbers) {
+      return numbers.reduce((sum, num) => sum + num, 0);
+    }
+
+    console.log(calculateSum(1, 2, 3)); // 6
+    console.log(calculateSum(1, 2, 3, 4, 5)); // 15
+    ```
+
+    Rest parameters replace the old `arguments` object. I like it because it's a real array, can use map, filter, etc.
+
+    ## Closures - My Hardest Concept to Understand
+
+    Closures gave me the biggest headache. "Function inside function? Access outer variables?" - so confusing!
+
+    ```javascript
+    function createCounter() {
+      let count = 0;
+
+      return function() {
+        count++;
+        return count;
+      };
+    }
+
+    const counter = createCounter();
+    console.log(counter()); // 1
+    console.log(counter()); // 2
+    ```
+
+    Inner function "remembers" outer scope variables. I use closures for private variables, factory functions, and implementing modules.
+
+    **Private variables with closures:**
+    ```javascript
+    function createBankAccount(initialBalance) {
+      let balance = initialBalance;
 
-Exponential backoff quan trọng: không retry immediately để tránh overload server. Start với 1s, 2s, 4s, 8s...
+      return {
+        deposit: function(amount) {
+          balance += amount;
+          return balance;
+        },
+        withdraw: function(amount) {
+          if (balance >= amount) {
+            balance -= amount;
+            return balance;
+          }
+          return 'Insufficient funds';
+        },
+        getBalance: function() {
+          return balance;
+        }
+      };
+    }
+
+    const account = createBankAccount(1000);
+    account.deposit(500); // 1500
+    console.log(account.balance); // undefined - private!
+    ```
+
+    Closures are now my favorite tool.
+
+    ## Higher-Order Functions - Functions as Parameters
+
+    The concept that made me go "wow" the most: functions can take other functions as parameters.
+
+    ```javascript
+    function processArray(arr, callback) {
+      const result = [];
+      for (let item of arr) {
+        result.push(callback(item));
+      }
+      return result;
+    }
+
+    const numbers = [1, 2, 3, 4, 5];
+    const squared = processArray(numbers, x => x * x);
+    console.log(squared); // [1, 4, 9, 16, 25]
+    ```
+
+    Array methods like map, filter, reduce are all higher-order functions. I use them every day.
+
+    **Custom map function:**
+    ```javascript
+    function myMap(arr, mapper) {
+      const result = [];
+      for (let i = 0; i < arr.length; i++) {
+        result.push(mapper(arr[i], i, arr));
+      }
+      return result;
+    }
 
-**Debounce - Performance savior cho search inputs**
-Trong e-commerce project, search API được call mỗi lần user type. Without debounce, có thể có 10-20 requests trong 1 giây. Debounce giúp reduce API calls và improve performance.
+    const doubled = myMap([1, 2, 3], x => x * 2);
+    console.log(doubled); // [2, 4, 6]
+    ```
 
-**Request deduplication - Tránh duplicate requests**
-Trong một dashboard app, tôi có bug khi user click button multiple times, tạo ra duplicate orders. Request deduplication đã solve vấn đề này.
+    ## Function Composition - Combining Functions Together
 
-**Caching utilities - Reduce server load**
-Cache responses locally để tránh call API không cần thiết. Nhưng cần cache invalidation strategy.
+    Advanced technique: combine multiple functions into a pipeline.
 
-Trong thực tế, tôi build một utility library với:
-- Smart retry với circuit breaker
-- Request deduplication
-- Response caching với TTL
-- Rate limiting
-- Request batching
+    ```javascript
+    const compose = (...functions) => x =>
+      functions.reduceRight((acc, fn) => fn(acc), x);
 
-Những utilities này đã prevent nhiều production issues và improve user experience đáng kể.
+    const add = x => x + 1;
+    const multiply = x => x * 2;
+    const square = x => x * x;
 
-## Khi tất cả modules hòa quyện
+    const complexCalc = compose(square, multiply, add);
+    console.log(complexCalc(3)); // ((3 + 1) * 2)² = 64
+    ```
 
-Sau khi build từng module riêng biệt, việc integrate chúng lại thành một cohesive system cũng là nghệ thuật.
+    Function composition helps make code declarative and reusable.
 
-Trong dự án lớn, tôi có một composition root - nơi assemble tất cả dependencies:
+    ## Immediately Invoked Function Expressions (IIFE)
 
-```javascript
-// composition root
-const apiClient = new APIClient(BASE_URL);
-const userAPI = new UserAPI(apiClient);
-const productAPI = new ProductAPI(apiClient);
-const wsManager = new WebSocketManager(WS_URL);
+    Old pattern but still useful: function that runs immediately after definition.
 
-export { userAPI, productAPI, wsManager };
-```
+    ```javascript
+    (function() {
+      const privateVar = 'Secret';
+      console.log('IIFE executed');
+    })();
 
-Cách này giúp:
-- Clear dependency flow
-- Easy testing với mocks
-- Flexible configuration cho different environments
+    // Arrow version
+    (() => {
+      console.log('Arrow IIFE');
+    })();
+    ```
 
-## Centralized Error Handling - Khi mọi thứ có thể fail
+    I use IIFE to create private scope, avoid global pollution.
 
-Error handling là phần bị under-estimate nhất trong network programming. Nhưng trong production, mọi thứ đều có thể fail: network, server, authentication, rate limits...
+    ## Callbacks, Promises, and Async Functions
 
-Tôi từng ship một app mà không có proper error handling. Kết quả:
-- White screen khi API down
-- Confusing error messages
-- User không biết phải làm gì
-- Support tickets tăng vọt
+    Modern JavaScript: async functions combined with callbacks and promises.
 
-Từ đó, tôi implement centralized error handling system. Mọi network error đi qua một pipeline:
+    ```javascript
+    // Callback style
+    function fetchUser(id, callback) {
+      setTimeout(() => {
+        callback({ id, name: 'User ' + id });
+      }, 1000);
+    }
 
-**Error classification**
-- Network errors (connection, timeout)
-- Server errors (500, 502, 503)
-- Client errors (400, 401, 403, 404)
-- Authentication errors (token expired)
+    // Promise style
+    function fetchUser(id) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ id, name: 'User ' + id });
+        }, 1000);
+      });
+    }
 
-**User-friendly messages**
-Không phải developer messages. User cần biết: "Connection lost, please check internet" thay vì "TypeError: Failed to fetch"
+    // Async/await style
+    async function getUserData() {
+      try {
+        const user = await fetchUser(1);
+        console.log(user);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    ```
 
-**Recovery strategies**
-- Auto retry cho transient errors
-- Redirect to login khi 401
-- Show offline mode khi network down
-- Graceful degradation
+    Async functions make async code look like sync code. Perfect!
 
-**Logging and monitoring**
-- Error tracking để improve system
-- Alert khi error rate cao
-- Debug information cho developers
+    ## What I Learned After 2 Years of JavaScript Coding
 
-Trong dự án fintech, error handling đã prevent nhiều potential issues. User thấy meaningful messages thay vì crashes, và team có insights để improve system reliability.
+    Functions are not just syntax - but a programming paradigm. From basic functions to advanced concepts like closures, higher-order functions - all change how I think about code.
 
-## Bài học từ kinh nghiệm refactor - Những gì tôi đã học được
+    **Code reusability:** Functions help break down complex problems into smaller, manageable pieces.
 
-Refactor codebase từ monolithic network.js sang modular architecture là một trong những best decisions tôi từng làm. Nhưng cũng là challenging nhất.
+    **Abstraction:** Hide implementation details, expose clean interfaces.
 
-**Thứ nhất: Start small, think big**
-Tôi bắt đầu với API Client duy nhất. Khi nó prove value, tôi expand dần. Don't try to modularize everything cùng lúc - bạn sẽ tạo ra mess lớn hơn.
+    **Composition:** Combine simple functions into complex behaviors.
 
-**Thứ hai: Invest in testing từ đầu**
-Modular code dễ test, nhưng bạn phải test. Tôi từng skip testing vì "code đơn giản". Kết quả là production bugs. Bây giờ tôi test mọi module: unit tests, integration tests, e2e tests.
+    **Maintainability:** Well-structured functions are easy to test, debug, and maintain.
 
-**Thứ ba: Documentation matters**
-Khi code trở nên modular, documentation trở thành critical. Team members cần hiểu purpose của mỗi module, dependencies, và cách sử dụng.
+    JavaScript functions taught me: programming is not just solving problems, but solving them elegantly.
 
-**Thứ tư: Monitor and iterate**
-Sau refactor, tôi track metrics: error rates, response times, development velocity. Modular architecture nên improve tất cả những metrics này.
+    If you're learning JavaScript, don't skip functions. Practice: write functions, refactor code into functions, experiment with closures. Functions will become your best friend.
 
-**Thứ năm: Cultural change**
-Modular thinking là mindset change. Team cần buy-in vào approach này. Code reviews, knowledge sharing sessions đều quan trọng.
-
-Trong dự án gần nhất, refactor này đã:
-- Giảm 60% error rates
-- Tăng 40% development speed
-- Improve code quality đáng kể
-- Make onboarding developers dễ dàng hơn
-
-Modular architecture không chỉ là code organization - nó là foundation cho scalable development culture.
-
-## Kết luận: JavaScript Modules - Nền tảng của ứng dụng scalable
-
-Quay lại câu hỏi đầu bài: "Làm thế nào để tổ chức code network một cách có cấu trúc?" - JavaScript Modules chính là câu trả lời toàn diện và hiện đại nhất.
-
-**Tóm tắt hành trình chúng ta đã đi qua:**
-
-1. **Spaghetti code problems** - Những hậu quả thực tế của monolithic network code
-2. **API Client foundation** - Investment cho future scalability
-3. **Domain-specific modules** - Business logic separation và testability
-4. **WebSocket complexity** - Managing realtime connections trong production
-5. **Utility functions** - Preventing common network issues
-6. **Error handling systems** - User experience và system reliability
-7. **Refactor lessons** - Từ failures đến best practices
-
-**Lộ trình tiếp theo cho bạn:**
-- Học về State Management (Redux, Zustand)
-- Implement Testing cho modules (Jest, React Testing Library)
-- Tìm hiểu Design Patterns trong JavaScript
-- Xây dựng full-stack applications
-- Học về Code Bundling và Optimization
-
-JavaScript Modules đã thay đổi hoàn toàn cách tôi tổ chức code. Từ việc viết monolithic scripts, giờ tôi có thể build maintainable, scalable applications với confidence.
-
-**Bạn sẽ bắt đầu transformation từ đâu?**
-- Nếu đang struggle với legacy code: Start với một API Client module
-- Nếu làm dự án mới: Implement modular structure từ đầu
-- Nếu team lead: Educate team về benefits của modular thinking
-
-Nếu bạn thấy bài viết hữu ích, hãy share cho bạn bè cùng học nhé! Chúc bạn code vui vẻ và thành công với JavaScript development!
-
-*P.S: Bài viết này là phần cuối trong series "JavaScript Network Programming". Hẹn gặp bạn ở series tiếp theo về React/Next.js và modern web development!*
+    *P.S: Functions are the foundation of JavaScript. Master them, you can code anything!*

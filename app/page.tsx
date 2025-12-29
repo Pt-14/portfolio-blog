@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, X } from 'lucide-react';
+import { ArrowRight, X, ExternalLink, Github, ZoomIn } from 'lucide-react';
 import { useState } from 'react';
 import HeroSection from '@/components/HeroSection';
 import ServicesSection from '@/components/ServicesSection';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const certificates = [
   {
@@ -21,8 +22,8 @@ const certificates = [
       en: 'Cisco Networking Academy',
     },
     date: {
-      vi: 'Ngày cấp: 02/12/2025',
-      en: 'Issued: Dec 02, 2025',
+      vi: '2025',
+      en: '2025',
     },
     description: {
       vi: 'Khóa học JavaScript Essentials 1 giúp tôi nắm vững cú pháp cốt lõi, làm việc với biến, toán tử, điều khiển luồng và hàm. Tôi học được cách phân biệt các kiểu dữ liệu, phát triển tư duy thuật toán và thiết kế các chương trình JavaScript cơ bản.',
@@ -41,8 +42,8 @@ const certificates = [
       en: 'Cisco Networking Academy',
     },
     date: {
-      vi: 'Ngày cấp: 22/12/2025',
-      en: 'Issued: Dec 22, 2025',
+      vi: '2025',
+      en: '2025',
     },
     description: {
       vi: 'Khóa học JavaScript Essentials 2 giúp tôi hiểu sâu về objects, prototypes và inheritance. Tôi học được cách sử dụng classes, quản lý JSON, làm việc với Math object, regular expressions và lập trình bất đồng bộ với callbacks và iterators.',
@@ -61,8 +62,8 @@ const certificates = [
       en: 'Cisco Networking Academy',
     },
     date: {
-      vi: 'Ngày cấp: 21/11/2025',
-      en: 'Issued: Nov 21, 2025',
+      vi: '2025',
+      en: '2025',
     },
     description: {
       vi: 'Khóa học Networking Basics giúp tôi hiểu các khái niệm cơ bản về mạng máy tính, giao thức và cách giao tiếp trên mạng Ethernet. Tôi học được về địa chỉ IP (IPv4/IPv6), cách router kết nối mạng và cấu hình mạng không dây an toàn.',
@@ -71,9 +72,79 @@ const certificates = [
   },
 ];
 
+const projects = [
+  {
+    id: 'pillpulse',
+    image: '/images/projects/pillpulse.png',
+    title: {
+      vi: 'PillPulse',
+      en: 'PillPulse',
+    },
+    projectType: {
+      vi: 'Đồ án chuyên ngành',
+      en: 'Capstone Project',
+    },
+    description: {
+      vi: 'Ứng dụng quản lý thuốc và nhắc nhở uống thuốc cho gia đình. PillPulse giúp người dùng không bao giờ quên uống thuốc với hệ thống nhắc nhở thông minh, quản lý lịch uống thuốc cho nhiều thành viên trong gia đình, và theo dõi lịch sử uống thuốc. Ứng dụng được thiết kế với giao diện thân thiện, dễ sử dụng để chăm sóc sức khỏe gia đình một cách hiệu quả.',
+      en: 'Medication management and reminder app for families. PillPulse helps users never forget to take their medicine with an intelligent reminder system, manages medication schedules for multiple family members, and tracks medication history. The app is designed with a friendly, easy-to-use interface to effectively care for family health.',
+    },
+    deployedUrl: '#',
+    githubUrl: 'https://github.com/Pt-14/pillpulse',
+    technologies: {
+      vi: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
+      en: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
+    },
+  },
+  {
+    id: 'circusverse',
+    image: '/images/projects/circusverse.png',
+    title: {
+      vi: 'CircusVerse',
+      en: 'CircusVerse',
+    },
+    projectType: {
+      vi: 'Đồ án môn học',
+      en: 'Course Project',
+    },
+    description: {
+      vi: 'Ứng dụng học ngôn ngữ di động được xây dựng với Flutter, giúp người dùng luyện tập từ vựng, ngữ pháp, quiz và flashcards. Ứng dụng sử dụng thuật toán Spaced Repetition (SM-2) để tối ưu hóa việc ôn tập, tích hợp speech recognition để luyện phát âm, và cung cấp hệ thống theo dõi tiến độ học tập chi tiết.',
+      en: 'A mobile language learning app built with Flutter, helping users practice vocabulary, grammar, quizzes, and flashcards. The app uses Spaced Repetition algorithm (SM-2) to optimize review sessions, integrates speech recognition for pronunciation practice, and provides a detailed learning progress tracking system.',
+    },
+    deployedUrl: '#',
+    githubUrl: 'https://github.com/Pt-14/circusverse',
+    technologies: {
+      vi: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
+      en: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
+    },
+  },
+  {
+    id: 'gaumeo-shop',
+    image: '/images/projects/gaumeoshop.png',
+    title: {
+      vi: 'GauMeo Shop',
+      en: 'GauMeo Shop',
+    },
+    projectType: {
+      vi: 'Đồ án môn học',
+      en: 'Course Project',
+    },
+    description: {
+      vi: 'Website thương mại điện tử cho cửa hàng thú cưng với giao diện hiện đại và thân thiện. Website cung cấp đầy đủ các tính năng như danh mục sản phẩm cho chó và mèo, dịch vụ chăm sóc thú cưng, hệ thống khuyến mãi, tìm kiếm sản phẩm, và quản lý giỏ hàng. Được thiết kế với UX/UI tối ưu để mang lại trải nghiệm mua sắm tiện lợi cho khách hàng.',
+      en: 'E-commerce website for a pet shop with modern and friendly interface. The website provides comprehensive features including product categories for dogs and cats, pet care services, promotion system, product search, and shopping cart management. Designed with optimized UX/UI to deliver a convenient shopping experience for customers.',
+    },
+    deployedUrl: '#',
+    githubUrl: 'https://github.com/Pt-14/GauMeo-shop',
+    technologies: {
+      vi: ['HTML', 'CSS', 'JavaScript', 'C#', 'SQL Server'],
+      en: ['HTML', 'CSS', 'JavaScript', 'C#', 'SQL Server'],
+    },
+  },
+];
+
 export default function Home() {
   const { language } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [expandedProjects, setExpandedProjects] = useState<Set<string>>(new Set());
 
   const openModal = (imageSrc: string) => {
     setSelectedImage(imageSrc);
@@ -83,7 +154,191 @@ export default function Home() {
     setSelectedImage(null);
   };
 
+  const toggleProjectDescription = (projectId: string) => {
+    setExpandedProjects((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(projectId)) {
+        newSet.delete(projectId);
+      } else {
+        newSet.add(projectId);
+      }
+      return newSet;
+    });
+  };
+
   const displayedCertificates = certificates.slice(0, 3);
+  const { ref: certTitleRef, isVisible: certTitleVisible } = useScrollAnimation();
+  const { ref: projectsTitleRef, isVisible: projectsTitleVisible } = useScrollAnimation();
+
+  // Certificate Card Component with animation
+  const CertificateCard = ({ cert, index }: { cert: typeof certificates[0], index: number }) => {
+    const { ref, isVisible } = useScrollAnimation();
+    return (
+      <div
+        ref={ref as React.RefObject<HTMLDivElement>}
+        className={`certificate-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg ${
+          isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-8'
+        }`}
+        style={{
+          transitionDelay: `${index * 100}ms`
+        }}
+      >
+        {/* Certificate Image */}
+        <div
+          className="relative w-full overflow-hidden bg-gray-50 cursor-pointer"
+          onClick={() => openModal(cert.image)}
+        >
+          <Image
+            src={cert.image}
+            alt={cert.title[language]}
+            width={400}
+            height={533}
+            className="object-contain w-full h-auto"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
+
+        {/* Certificate Info */}
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm text-gray-600 font-medium">
+              {cert.issuer[language]}
+            </p>
+            <p className="text-xs text-gray-500">
+              {cert.date[language]}
+            </p>
+          </div>
+
+          <h3 className="text-xl font-bold text-[#161513] mb-4">
+            {cert.title[language]}
+          </h3>
+
+          <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+            {cert.description[language]}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  // Project Card Component with animation
+  const ProjectCard = ({ project, index }: { project: typeof projects[0], index: number }) => {
+    const { ref, isVisible } = useScrollAnimation();
+    return (
+      <div
+        ref={ref as React.RefObject<HTMLDivElement>}
+        className={`project-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg group ${
+          isVisible 
+            ? 'opacity-100 translate-y-0' 
+            : 'opacity-0 translate-y-8'
+        }`}
+        style={{
+          transitionDelay: `${index * 100}ms`
+        }}
+      >
+        {/* GitHub Link - Top Right Corner */}
+        {project.githubUrl && (
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-3 right-3 z-30 bg-white/90 hover:bg-gradient-to-r hover:from-[#b16cea] hover:via-[#ff5e69] hover:via-[#ff8a56] hover:to-[#ffa84b] rounded-full p-2 shadow-lg transition-all hover:scale-110 group/github"
+            onClick={(e) => e.stopPropagation()}
+            title={language === 'vi' ? 'Mã nguồn' : 'Source Code'}
+          >
+            <Github className="w-5 h-5 text-gray-700 group-hover/github:text-white transition-colors" />
+          </a>
+        )}
+
+        {/* Project Image */}
+        <div
+          onClick={() => openModal(project.image)}
+          className="relative w-full h-48 min-h-[192px] overflow-hidden bg-gray-50 cursor-pointer block group/image"
+        >
+          <div className="relative w-full h-full flex items-center justify-center p-2">
+            <Image
+              src={project.image}
+              alt={project.title[language]}
+              width={400}
+              height={300}
+              unoptimized
+              className="object-contain w-auto h-auto max-w-full max-h-full transition-transform duration-300 group-hover/image:scale-105"
+              style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
+              onError={(e) => {
+                console.error('Image failed to load:', project.image);
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent) {
+                  parent.innerHTML = '<div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">Image not found</div>';
+                }
+              }}
+            />
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover/image:opacity-100 transition-opacity duration-300">
+            <div className="w-10 h-10 text-gray-700 bg-white/90 rounded-full p-2 shadow-lg flex items-center justify-center">
+              <ZoomIn className="w-5 h-5" />
+            </div>
+          </div>
+        </div>
+
+        {/* Project Info */}
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xl font-bold text-[#161513]">
+              {project.title[language]}
+            </h3>
+            {project.projectType && (
+              <span className="px-2 py-1 text-xs font-medium bg-gray-300 text-gray-800 rounded whitespace-nowrap">
+                {project.projectType[language]}
+              </span>
+            )}
+          </div>
+
+          <div className="relative mb-4">
+            <p className={`text-sm text-gray-600 leading-relaxed break-words ${expandedProjects.has(project.id) ? '' : 'line-clamp-3'}`}>
+              {project.description[language]}
+            </p>
+            <button
+              onClick={() => toggleProjectDescription(project.id)}
+              className="text-xs font-medium mt-1 inline-block bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+            >
+              {expandedProjects.has(project.id) 
+                ? (language === 'vi' ? 'Thu gọn' : 'Show less') 
+                : (language === 'vi' ? 'Xem thêm' : 'Read more')} →
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.technologies[language].map((tech, techIndex) => (
+              <span
+                key={techIndex}
+                className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {project.deployedUrl && project.deployedUrl !== '#' && (
+            <div className="flex items-center">
+              <a
+                href={project.deployedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[#b16cea] hover:text-[#8a4ed8] transition-colors"
+              >
+                {language === 'vi' ? 'Xem dự án' : 'View Project'}
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -97,69 +352,55 @@ export default function Home() {
         {/* Featured Certificates Section */}
       <section className="py-20 bg-[#f0f2f5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div 
+            ref={certTitleRef as React.RefObject<HTMLDivElement>}
+            className={`text-left mb-8 transition-all duration-700 ease-out ${
+              certTitleVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 flex items-center">
                 {language === 'vi' ? 'Chứng chỉ' : 'Certificates'}
+                <span className="bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] bg-clip-text text-transparent">.</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                {language === 'vi'
-                  ? 'Các chứng chỉ và bằng cấp tôi đã đạt được trong quá trình học tập và phát triển kỹ năng.'
-                  : 'Certificates and credentials I have achieved during my learning and skill development journey.'}
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {displayedCertificates.map((cert) => (
-              <div
-                  key={cert.id}
-                  className="certificate-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg"
-              >
-                  {/* Certificate Image */}
-                  <div
-                    className="relative w-full overflow-hidden bg-gray-50 cursor-pointer"
-                    onClick={() => openModal(cert.image)}
-                  >
-                    <Image
-                      src={cert.image}
-                      alt={cert.title[language]}
-                      width={400}
-                      height={533}
-                      className="object-contain w-full h-auto"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                </div>
-
-                  {/* Certificate Info */}
-                <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <p className="text-sm text-gray-600 font-medium">
-                        {cert.issuer[language]}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {cert.date[language]}
-                      </p>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-[#161513] mb-4">
-                      {cert.title[language]}
-                  </h3>
-
-                    <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                      {cert.description[language]}
-                    </p>
-                </div>
-              </div>
+              {displayedCertificates.map((cert, index) => (
+                <CertificateCard key={cert.id} cert={cert} index={index} />
             ))}
           </div>
-
-          <div className="text-center mt-12">
+          
+          {/* All Certificates Button - positioned below grid, aligned to right of 3rd card */}
+          <div className="mt-8 flex justify-end">
             <Link
                 href="/certificates"
-                className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                className="group inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-80 transition-opacity"
             >
-                {language === 'vi' ? 'Xem tất cả chứng chỉ' : 'View All Certificates'}
-              <ArrowRight className="w-5 h-5" />
+                <span className="bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] bg-clip-text text-transparent">
+                  {language === 'vi' ? 'Tất cả chứng chỉ' : 'All Certificates'}
+                </span>
+              <ArrowRight className="w-4 h-4 text-[#b16cea] transition-colors" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Projects Section */}
+      <section className="pt-4 pb-20 bg-[#f0f2f5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-left mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 flex items-center">
+              {language === 'vi' ? 'Hãy xem các dự án của tôi' : 'Check my Projects'}
+              <span className="bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] bg-clip-text text-transparent">.</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
           </div>
         </div>
       </section>
@@ -181,9 +422,10 @@ export default function Home() {
           <div className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center">
             <Image
               src={selectedImage}
-              alt="Certificate"
+              alt={selectedImage.includes('certificate') ? 'Certificate' : 'Project'}
               width={1200}
               height={1600}
+              unoptimized
               className="object-contain max-w-full max-h-full"
               onClick={(e) => e.stopPropagation()}
             />

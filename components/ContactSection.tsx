@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const translations = {
   vi: {
@@ -33,6 +34,9 @@ const translations = {
 export default function ContactSection() {
   const { language } = useLanguage();
   const t = translations[language];
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const { ref: descRef, isVisible: descVisible } = useScrollAnimation();
+  const { ref: formRef, isVisible: formVisible } = useScrollAnimation();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -60,13 +64,35 @@ export default function ContactSection() {
         <div className="w-layout-blockcontainer container w-container">
         <div className="contact-page-hero-wrap">
           <div className="contact-page-hero-content">
-            <h1 className="gradient is-text">{t.title}</h1>
-            <div className="contact-page-hero-paragraph">
+            <h1 
+              ref={titleRef as React.RefObject<HTMLHeadingElement>}
+              className={`gradient is-text transition-all duration-700 ease-out ${
+                titleVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+            >
+              {t.title}
+            </h1>
+            <div 
+              ref={descRef as React.RefObject<HTMLDivElement>}
+              className={`contact-page-hero-paragraph transition-all duration-700 ease-out delay-100 ${
+                descVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+            >
               <p className="dark">
                 {t.description}
               </p>
             </div>
-            <div className="contact-page-contact-details">
+            <div 
+              className={`contact-page-contact-details transition-all duration-700 ease-out delay-200 ${
+                descVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+            >
               <div className="contact-page-contact-item">
                 <div className="contact-item-icon-wrap">
                   <svg
@@ -119,7 +145,14 @@ export default function ContactSection() {
               </div>
             </div>
           </div>
-          <div className="contact-page-hero-form">
+          <div 
+            ref={formRef as React.RefObject<HTMLDivElement>}
+            className={`contact-page-hero-form transition-all duration-700 ease-out delay-300 ${
+              formVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}
+          >
             <form
               id="email-form"
               name="email-form"

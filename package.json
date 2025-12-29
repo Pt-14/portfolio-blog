@@ -12,6 +12,8 @@
     "deploy": "npm run export:gh-pages && node -e \"require('fs').writeFileSync('out/.nojekyll', '')\" && gh-pages -d out"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.12.28",
     "date-fns": "^4.1.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",

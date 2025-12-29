@@ -1,21 +1,12 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-// Check if deploying to GitHub Pages
-const isGitHubPages = process.env.NODE_ENV === 'production' && process.env.GITHUB_PAGES === 'true';
-
 const nextConfig: NextConfig = {
-  // GitHub Pages configuration (only when GITHUB_PAGES=true)
-  output: 'export',
-  basePath: isGitHubPages ? '/portfolio-blog' : '',
-  assetPrefix: isGitHubPages ? '/portfolio-blog' : '',
-  trailingSlash: true,
-  
-  // Turbopack config (empty to silence warning, using webpack for module resolution fix)
+  // Turbopack config
   turbopack: {},
-  
+
   images: {
-    unoptimized: true, // Required for GitHub Pages
+    // Vercel supports image optimization
     remotePatterns: [
       {
         protocol: 'https',
@@ -23,7 +14,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  
+
   webpack: (config, { dir }) => {
     // Restrict module resolution to project directory only
     // This prevents webpack from looking in parent directories
@@ -31,7 +22,7 @@ const nextConfig: NextConfig = {
     config.resolve.modules = [
       path.resolve(projectRoot, "node_modules"),
     ];
-    
+
     return config;
   },
 };

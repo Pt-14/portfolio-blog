@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const certificates = [
   {
@@ -18,8 +19,8 @@ const certificates = [
       en: 'Cisco Networking Academy',
     },
     date: {
-      vi: 'Ngày cấp: 02/12/2025',
-      en: 'Issued: Dec 02, 2025',
+      vi: '2025',
+      en: '2025',
     },
     description: {
       vi: 'Khóa học JavaScript Essentials 1 giúp tôi nắm vững cú pháp cốt lõi, làm việc với biến, toán tử, điều khiển luồng và hàm. Tôi học được cách phân biệt các kiểu dữ liệu, phát triển tư duy thuật toán và thiết kế các chương trình JavaScript cơ bản.',
@@ -38,8 +39,8 @@ const certificates = [
       en: 'Cisco Networking Academy',
     },
     date: {
-      vi: 'Ngày cấp: 22/12/2025',
-      en: 'Issued: Dec 22, 2025',
+      vi: '2025',
+      en: '2025',
     },
     description: {
       vi: 'Khóa học JavaScript Essentials 2 giúp tôi hiểu sâu về objects, prototypes và inheritance. Tôi học được cách sử dụng classes, quản lý JSON, làm việc với Math object, regular expressions và lập trình bất đồng bộ với callbacks và iterators.',
@@ -58,8 +59,8 @@ const certificates = [
       en: 'Cisco Networking Academy',
     },
     date: {
-      vi: 'Ngày cấp: 21/11/2025',
-      en: 'Issued: Nov 21, 2025',
+      vi: '2025',
+      en: '2025',
     },
     description: {
       vi: 'Khóa học Networking Basics giúp tôi hiểu các khái niệm cơ bản về mạng máy tính, giao thức và cách giao tiếp trên mạng Ethernet. Tôi học được về địa chỉ IP (IPv4/IPv6), cách router kết nối mạng và cấu hình mạng không dây an toàn.',
@@ -78,8 +79,8 @@ const certificates = [
       en: 'Chulalongkorn University - CHULA MOOC',
     },
     date: {
-      vi: 'Ngày cấp: 16/09/2024',
-      en: 'Issued: Sep 16, 2024',
+      vi: '2024',
+      en: '2024',
     },
     description: {
       vi: 'Khóa học Survival Thai giúp tôi nắm vững các kỹ năng giao tiếp tiếng Thái cơ bản trong cuộc sống hàng ngày. Tôi học được cách chào hỏi, giới thiệu bản thân và sử dụng từ vựng trong các tình huống thực tế như mua sắm, ăn uống và hỏi đường.',
@@ -98,8 +99,8 @@ const certificates = [
       en: 'Chulalongkorn University - CHULA MOOC',
     },
     date: {
-      vi: 'Ngày cấp: 17/09/2024',
-      en: 'Issued: Sep 17, 2024',
+      vi: '2024',
+      en: '2024',
     },
     description: {
       vi: 'Khóa học Thai on Campus giúp tôi phát triển kỹ năng tiếng Thái trong môi trường học thuật. Tôi học được các thuật ngữ chuyên ngành, cách diễn đạt trong lớp học và kỹ năng thảo luận, thuyết trình cũng như tương tác với giảng viên và bạn học.',
@@ -108,9 +109,68 @@ const certificates = [
   },
 ];
 
+// Certificate Card Component with animation
+function CertificateCard({ cert, language, index, onImageClick }: { 
+  cert: typeof certificates[0], 
+  language: string, 
+  index: number,
+  onImageClick: (imageSrc: string) => void
+}) {
+  const { ref, isVisible } = useScrollAnimation();
+  return (
+    <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      className={`certificate-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg ${
+        isVisible 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-8'
+      }`}
+      style={{
+        transitionDelay: `${index * 100}ms`
+      }}
+    >
+      {/* Certificate Image */}
+      <div 
+        className="relative w-full overflow-hidden bg-gray-50 cursor-pointer"
+        onClick={() => onImageClick(cert.image)}
+      >
+        <Image
+          src={cert.image}
+          alt={cert.title[language as 'vi' | 'en']}
+          width={400}
+          height={533}
+          className="object-contain w-full h-auto"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+      </div>
+
+      {/* Certificate Info */}
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm text-gray-600 font-medium">
+            {cert.issuer[language as 'vi' | 'en']}
+          </p>
+          <p className="text-xs text-gray-500">
+            {cert.date[language as 'vi' | 'en']}
+          </p>
+        </div>
+
+        <h3 className="text-xl font-bold text-[#161513] mb-4">
+          {cert.title[language as 'vi' | 'en']}
+        </h3>
+
+        <p className="text-sm text-gray-600 leading-relaxed">
+          {cert.description[language as 'vi' | 'en']}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function CertificatesPage() {
   const { language } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
 
   const openModal = (imageSrc: string) => {
     setSelectedImage(imageSrc);
@@ -125,54 +185,34 @@ export default function CertificatesPage() {
       <div className="pt-16 min-h-screen bg-[#f0f2f5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
           {/* Header */}
-          <div className="text-center mb-16">
+          <div 
+            ref={headerRef as React.RefObject<HTMLDivElement>}
+            className={`text-center mb-16 transition-all duration-700 ease-out ${
+              headerVisible 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}
+          >
             <h1 className="text-4xl md:text-5xl font-bold text-[#161513] mb-4">
               {language === 'vi' ? 'Chứng chỉ' : 'Certificates'}
             </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {language === 'vi'
+                ? 'Các chứng chỉ tôi đã đạt được trong quá trình học tập, phát triển kỹ năng.'
+                : 'Certificates and credentials I have achieved during my learning, skill development journey.'}
+            </p>
           </div>
 
           {/* Certificates Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {certificates.map((cert) => (
-              <div
+            {certificates.map((cert, index) => (
+              <CertificateCard 
                 key={cert.id}
-                className="certificate-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-lg"
-              >
-                {/* Certificate Image */}
-                <div 
-                  className="relative w-full overflow-hidden bg-gray-50 cursor-pointer"
-                  onClick={() => openModal(cert.image)}
-                >
-                  <Image
-                    src={cert.image}
-                    alt={cert.title[language]}
-                    width={400}
-                    height={533}
-                    className="object-contain w-full h-auto"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
-
-                {/* Certificate Info */}
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-sm text-gray-600 font-medium">
-                      {cert.issuer[language]}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {cert.date[language]}
-                    </p>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-[#161513] mb-4">
-                    {cert.title[language]}
-                  </h3>
-
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {cert.description[language]}
-                  </p>
-                </div>
-              </div>
+                cert={cert}
+                language={language}
+                index={index}
+                onImageClick={openModal}
+              />
             ))}
           </div>
         </div>

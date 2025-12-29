@@ -9,11 +9,23 @@ const postsDirectory = path.join(process.cwd(), 'posts');
 
 export interface Post {
   slug: string;
-  title: string;
+  title: {
+    vi: string;
+    en: string;
+  };
   date: string;
-  excerpt: string;
-  content: string;
-  category: string;
+  excerpt: {
+    vi: string;
+    en: string;
+  };
+  content: {
+    vi: string;
+    en: string;
+  };
+  category: {
+    vi: string;
+    en: string;
+  };
   tags: string[];
   image?: string;
 }
@@ -42,22 +54,42 @@ export function getPostBySlug(slug: string): Post {
     },
   });
 
-  let contentHtml = '';
-  try {
-    const processedContent = remark().use(html).processSync(content);
-    contentHtml = String(processedContent);
-  } catch (error) {
-    console.error(`Error processing markdown for ${realSlug}:`, error);
-    contentHtml = content;
+  // Process content for both languages if it's an object, otherwise use as single language
+  let contentResult = { vi: '', en: '' };
+
+  if (typeof data.content === 'object' && data.content.vi && data.content.en) {
+    // Content is already structured as bilingual
+    try {
+      const processedContentVi = remark().use(html).processSync(data.content.vi);
+      const processedContentEn = remark().use(html).processSync(data.content.en);
+      contentResult = {
+        vi: String(processedContentVi),
+        en: String(processedContentEn)
+      };
+    } catch (error) {
+      console.error(`Error processing bilingual markdown for ${realSlug}:`, error);
+      contentResult = data.content;
+    }
+  } else {
+    // Single language content - try to process as HTML
+    try {
+      const processedContent = remark().use(html).processSync(content);
+      const contentHtml = String(processedContent);
+      // For backward compatibility, assume this is Vietnamese content
+      contentResult = { vi: contentHtml, en: contentHtml };
+    } catch (error) {
+      console.error(`Error processing markdown for ${realSlug}:`, error);
+      contentResult = { vi: content, en: content };
+    }
   }
 
   return {
     slug: realSlug,
-    title: data.title || '',
+    title: data.title || { vi: '', en: '' },
     date: data.date || '',
-    excerpt: data.excerpt || '',
-    content: contentHtml,
-    category: data.category || 'Uncategorized',
+    excerpt: data.excerpt || { vi: '', en: '' },
+    content: contentResult,
+    category: data.category || { vi: 'Uncategorized', en: 'Uncategorized' },
     tags: data.tags || [],
     image: data.image || '',
   } as Post;
@@ -78,5 +110,7 @@ export function getAllPosts(): Post[] {
 }
 
 export function getPostsByCategory(category: string): Post[] {
-  return getAllPosts().filter((post) => post.category === category);
+  return getAllPosts().filter((post) =>
+    post.category.vi === category || post.category.en === category
+  );
 }
