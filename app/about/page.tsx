@@ -35,7 +35,7 @@ export default function AboutPage() {
           items: ["Node.js", "Express", "RESTful API", "MySQL", "MongoDB"]
         },
         softSkills: {
-          title: "Soft Skills",
+          title: "Kĩ năng mềm",
           items: ["Tiếng Trung (Bản ngữ)", "Tiếng Thái/Anh (Thành thạo)", "Giao tiếp hiệu quả", "Làm việc nhóm", "Học hỏi nhanh"]
         }
       },
@@ -44,7 +44,7 @@ export default function AboutPage() {
         content: [
           "Hành trình với mong muốn trở thành Frontend Developer của tôi bắt đầu vào năm 2021, trong thời gian tôi đang chọn chuyên ngành đại học. Giống như nhiều sinh viên khác, tôi cảm thấy không chắc chắn về hướng đi của mình cho đến khi tôi khám phá frontend development qua việc tìm hiểu trực tuyến, bị thu hút bởi sự kết hợp giữa logic, sáng tạo và thiết kế tập trung vào người dùng.",
           "Bước vào đại học đã mở ra nhiều cơ hội để tôi tiếp tục khám phá lĩnh vực này thông qua các khóa học, dự án cá nhân và tự học. Tôi đam mê xây dựng các sản phẩm số với trọng tâm là Frontend Development và UI/UX Design, kết hợp chức năng ổn định với giao diện trực quan và tôi sử dụng các công cụ như Figma để tạo ra những trải nghiệm người dùng mượt mà.",
-          "Hiện tại, tôi đang trong giai đoạn chuyển tiếp từ môi trường học tập sang thị trường việc làm và đang tìm kiếm cơ hội thực tập hoặc công việc trong lĩnh vực Frontend Development để áp dụng kỹ năng, tích lũy kinh nghiệm thực tế và tiếp tục phát triển như một lập trình viên."
+          "Hiện tại, tôi đang trong giai đoạn chuyển tiếp từ môi trường học tập sang thị trường việc làm và đang tìm kiếm cơ hội thực tập hoặc công việc trong lĩnh vực Frontend Development để áp dụng kỹ năng, tích lũy kinh nghiệm thực tế và tiếp tục phát triển với tư cách là một lập trình viên."
         ]
       },
     },

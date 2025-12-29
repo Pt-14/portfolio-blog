@@ -75,7 +75,7 @@ export default function HeroSection() {
               <Link href="/contact" className="gradient-btn w-inline-block">
                 <div className="gradient-btn-text">{t.getInTouch}</div>
               </Link>
-              <Link href="/blog" className="sec-btn w-inline-block">
+              <Link href="#projects" className="sec-btn w-inline-block">
                 <div className="sec-btn-text">{t.viewAllWorks}</div>
               </Link>
             </div>

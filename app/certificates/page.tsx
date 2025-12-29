@@ -199,7 +199,7 @@ export default function CertificatesPage() {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {language === 'vi'
                 ? 'Các chứng chỉ tôi đã đạt được trong quá trình học tập, phát triển kỹ năng.'
-                : 'Certificates and credentials I have achieved during my learning, skill development journey.'}
+                : 'Certificates I have achieved during my learning, skill development journey.'}
             </p>
           </div>
 
