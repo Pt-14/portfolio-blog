@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, X, ExternalLink, Github, ZoomIn } from 'lucide-react';
+import { ArrowRight, X, Github, ZoomIn } from 'lucide-react';
 import { useState } from 'react';
 import HeroSection from '@/components/HeroSection';
 import ServicesSection from '@/components/ServicesSection';
@@ -10,6 +10,26 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const certificates = [
+  {
+    id: 'gemini-certified-student',
+    image: '/images/certificate/gemini_certificate.jpg',
+    title: {
+      vi: 'Gemini Certified Student',
+      en: 'Gemini Certified Student',
+    },
+    issuer: {
+      vi: 'Google for Education',
+      en: 'Google for Education',
+    },
+    date: {
+      vi: '2025',
+      en: '2025',
+    },
+    description: {
+      vi: 'Chứng chỉ Gemini Certified Student (University) chứng nhận tôi đã chứng minh được kiến thức, kỹ năng và năng lực cơ bản cần thiết để sử dụng Google AI. Chứng chỉ có giá trị đến 31/12/2028.',
+      en: 'Gemini Certified Student (University) certificate demonstrates that I have proven the knowledge, skills, and basic competencies needed to use Google AI. Valid through 31/12/2028.',
+    },
+  },
   {
     id: 'javascript-essentials-1',
     image: '/images/certificate/JavaScriptEssentials1.jpg',
@@ -50,28 +70,9 @@ const certificates = [
       en: 'JavaScript Essentials 2 course helped me understand objects, prototypes, and inheritance deeply. I learned to use classes, manage JSON, work with Math object, regular expressions, and asynchronous programming with callbacks and iterators.',
     },
   },
-  {
-    id: 'networking-basics',
-    image: '/images/certificate/NetworkingBasics.jpg',
-    title: {
-      vi: 'Networking Basics',
-      en: 'Networking Basics',
-    },
-    issuer: {
-      vi: 'Cisco Networking Academy',
-      en: 'Cisco Networking Academy',
-    },
-    date: {
-      vi: '2025',
-      en: '2025',
-    },
-    description: {
-      vi: 'Khóa học Networking Basics giúp tôi hiểu các khái niệm cơ bản về mạng máy tính, giao thức và cách giao tiếp trên mạng Ethernet. Tôi học được về địa chỉ IP (IPv4/IPv6), cách router kết nối mạng và cấu hình mạng không dây an toàn.',
-      en: 'Networking Basics course helped me understand fundamental network concepts, protocols, and communication on Ethernet networks. I learned about IP addresses (IPv4/IPv6), how routers connect networks, and secure wireless network configuration.',
-    },
-  },
 ];
 
+// Featured projects shown on home page (3 main projects with images)
 const projects = [
   {
     id: 'pillpulse',
@@ -85,14 +86,13 @@ const projects = [
       en: 'Capstone Project',
     },
     description: {
-      vi: 'Ứng dụng quản lý thuốc và nhắc nhở uống thuốc cho gia đình. PillPulse giúp người dùng không bao giờ quên uống thuốc với hệ thống nhắc nhở thông minh, quản lý lịch uống thuốc cho nhiều thành viên trong gia đình, và theo dõi lịch sử uống thuốc. Ứng dụng được thiết kế với giao diện thân thiện, dễ sử dụng để chăm sóc sức khỏe gia đình một cách hiệu quả.',
-      en: 'Medication management and reminder app for families. PillPulse helps users never forget to take their medicine with an intelligent reminder system, manages medication schedules for multiple family members, and tracks medication history. The app is designed with a friendly, easy-to-use interface to effectively care for family health.',
+      vi: 'Ứng dụng quản lý thuốc và nhắc nhở uống thuốc cho gia đình. PillPulse giúp người dùng không bao giờ quên uống thuốc với hệ thống nhắc nhở thông minh, quản lý lịch uống thuốc cho nhiều thành viên trong gia đình.',
+      en: 'Medication management and reminder app for families. PillPulse helps users never forget to take their medicine with an intelligent reminder system, manages medication schedules for multiple family members.',
     },
-    deployedUrl: '#',
     githubUrl: 'https://github.com/Pt-14/pillpulse',
     technologies: {
-      vi: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
-      en: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
+      vi: ['Flutter', 'Dart', 'Node.js', 'MongoDB Atlas'],
+      en: ['Flutter', 'Dart', 'Node.js', 'MongoDB Atlas'],
     },
   },
   {
@@ -107,14 +107,13 @@ const projects = [
       en: 'Course Project',
     },
     description: {
-      vi: 'Ứng dụng học ngôn ngữ di động được xây dựng với Flutter, giúp người dùng luyện tập từ vựng, ngữ pháp, quiz và flashcards. Ứng dụng sử dụng thuật toán Spaced Repetition (SM-2) để tối ưu hóa việc ôn tập, tích hợp speech recognition để luyện phát âm, và cung cấp hệ thống theo dõi tiến độ học tập chi tiết.',
-      en: 'A mobile language learning app built with Flutter, helping users practice vocabulary, grammar, quizzes, and flashcards. The app uses Spaced Repetition algorithm (SM-2) to optimize review sessions, integrates speech recognition for pronunciation practice, and provides a detailed learning progress tracking system.',
+      vi: 'Ứng dụng học ngôn ngữ di động được xây dựng với Flutter, giúp người dùng luyện tập từ vựng, ngữ pháp, quiz và flashcards. Sử dụng thuật toán Spaced Repetition (SM-2) để tối ưu hóa việc ôn tập.',
+      en: 'A mobile language learning app built with Flutter, helping users practice vocabulary, grammar, quizzes, and flashcards. Uses Spaced Repetition algorithm (SM-2) to optimize review sessions.',
     },
-    deployedUrl: '#',
     githubUrl: 'https://github.com/Pt-14/circusverse',
     technologies: {
-      vi: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
-      en: ['Flutter', 'Dart', 'Mobile App', 'Node.js', 'MongoDB Atlas'],
+      vi: ['Flutter', 'Dart', 'Node.js', 'MongoDB Atlas'],
+      en: ['Flutter', 'Dart', 'Node.js', 'MongoDB Atlas'],
     },
   },
   {
@@ -129,10 +128,9 @@ const projects = [
       en: 'Course Project',
     },
     description: {
-      vi: 'Website thương mại điện tử cho cửa hàng thú cưng với giao diện hiện đại và thân thiện. Website cung cấp đầy đủ các tính năng như danh mục sản phẩm cho chó và mèo, dịch vụ chăm sóc thú cưng, hệ thống khuyến mãi, tìm kiếm sản phẩm, và quản lý giỏ hàng. Được thiết kế với UX/UI tối ưu để mang lại trải nghiệm mua sắm tiện lợi cho khách hàng.',
-      en: 'E-commerce website for a pet shop with modern and friendly interface. The website provides comprehensive features including product categories for dogs and cats, pet care services, promotion system, product search, and shopping cart management. Designed with optimized UX/UI to deliver a convenient shopping experience for customers.',
+      vi: 'Website thương mại điện tử cho cửa hàng thú cưng với giao diện hiện đại và thân thiện. Cung cấp đầy đủ các tính năng như danh mục sản phẩm, dịch vụ chăm sóc, hệ thống khuyến mãi và quản lý giỏ hàng.',
+      en: 'E-commerce website for a pet shop with modern and friendly interface. Provides comprehensive features including product categories, pet care services, promotion system, and shopping cart management.',
     },
-    deployedUrl: '#',
     githubUrl: 'https://github.com/Pt-14/GauMeo-shop',
     technologies: {
       vi: ['HTML', 'CSS', 'JavaScript', 'C#', 'SQL Server'],
@@ -168,7 +166,6 @@ export default function Home() {
 
   const displayedCertificates = certificates.slice(0, 3);
   const { ref: certTitleRef, isVisible: certTitleVisible } = useScrollAnimation();
-  const { ref: projectsTitleRef, isVisible: projectsTitleVisible } = useScrollAnimation();
 
   // Certificate Card Component with animation
   const CertificateCard = ({ cert, index }: { cert: typeof certificates[0], index: number }) => {
@@ -267,12 +264,11 @@ export default function Home() {
               className="object-contain w-auto h-auto max-w-full max-h-full transition-transform duration-300 group-hover/image:scale-105"
               style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }}
               onError={(e) => {
-                console.error('Image failed to load:', project.image);
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
                 const parent = target.parentElement;
                 if (parent) {
-                  parent.innerHTML = '<div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">Image not found</div>';
+                  parent.innerHTML = '<div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">No Preview</div>';
                 }
               }}
             />
@@ -311,7 +307,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2">
             {project.technologies[language].map((tech, techIndex) => (
               <span
                 key={techIndex}
@@ -321,20 +317,6 @@ export default function Home() {
               </span>
             ))}
           </div>
-
-          {project.deployedUrl && project.deployedUrl !== '#' && (
-            <div className="flex items-center">
-              <a
-                href={project.deployedUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#b16cea] hover:text-[#8a4ed8] transition-colors"
-              >
-                {language === 'vi' ? 'Xem dự án' : 'View Project'}
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -401,6 +383,19 @@ export default function Home() {
             {projects.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}
+          </div>
+
+          {/* All Projects Button */}
+          <div className="mt-8 flex justify-end">
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-80 transition-opacity"
+            >
+              <span className="bg-gradient-to-r from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b] bg-clip-text text-transparent">
+                {language === 'vi' ? 'Tất cả dự án' : 'All Projects'}
+              </span>
+              <ArrowRight className="w-4 h-4 text-[#b16cea] transition-colors" />
+            </Link>
           </div>
         </div>
       </section>

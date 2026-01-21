@@ -112,7 +112,7 @@ export default function AboutPage() {
             {/* Left Column - Avatar Image */}
             <div className="flex justify-center lg:justify-end pr-23">
               <img 
-                src="/images/avatar/avatar.jpg" 
+                src="/images/avatar/pic1-1.jpg" 
                 alt={t.about.name}
                 loading="lazy"
                 className="w-full max-w-xs rounded-full border-5 border-gray-300 object-cover aspect-square shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]"

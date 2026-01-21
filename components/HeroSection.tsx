@@ -80,15 +80,24 @@ export default function HeroSection() {
               </Link>
             </div>
           </div>
-          <div className="hero-section-image mt-4 md:mt-6">
-            <Image
-              src="/images/avatar/avatar.png"
-              alt="hero image"
-              width={200}
-              height={200}
-              priority
-              className="hero-img rounded-2xl"
-            />
+          <div className="hero-section-image mt-4 md:mt-6 flex justify-center pl-4 md:pl-8">
+            {/* Container for image with gradient ring */}
+            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[360px] md:h-[360px]">
+              {/* Gradient ring - positioned outside the image with gap */}
+              <div className="absolute -inset-8 rounded-full p-[1px] bg-gradient-to-br from-[#b16cea] via-[#ff5e69] via-[#ff8a56] to-[#ffa84b]">
+                <div className="w-full h-full rounded-full bg-[#f0f2f5]"></div>
+              </div>
+              {/* Image wrapper with rounded clip */}
+              <div className="relative w-full h-full rounded-full overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]">
+                <Image
+                  src="/images/avatar/pic1.jpg"
+                  alt="hero image"
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

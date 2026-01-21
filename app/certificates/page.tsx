@@ -8,6 +8,26 @@ import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const certificates = [
   {
+    id: 'gemini-certified-student',
+    image: '/images/certificate/gemini_certificate.jpg',
+    title: {
+      vi: 'Gemini Certified Student',
+      en: 'Gemini Certified Student',
+    },
+    issuer: {
+      vi: 'Google for Education',
+      en: 'Google for Education',
+    },
+    date: {
+      vi: '2025',
+      en: '2025',
+    },
+    description: {
+      vi: 'Chứng chỉ Gemini Certified Student (University) chứng nhận tôi đã chứng minh được kiến thức, kỹ năng và năng lực cơ bản cần thiết để sử dụng Google AI. Chứng chỉ có giá trị đến 31/12/2028.',
+      en: 'Gemini Certified Student (University) certificate demonstrates that I have proven the knowledge, skills, and basic competencies needed to use Google AI. Valid through 31/12/2028.',
+    },
+  },
+  {
     id: 'javascript-essentials-1',
     image: '/images/certificate/JavaScriptEssentials1.jpg',
     title: {

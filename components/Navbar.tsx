@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const navLinks = [
   { href: '/', label: { vi: 'Trang chủ', en: 'Home' } },
+  { href: '/projects', label: { vi: 'Dự án', en: 'Projects' } },
   { href: '/certificates', label: { vi: 'Chứng chỉ', en: 'Certificates' } },
   { href: '/blog', label: { vi: 'Bài viết', en: 'Blog' } },
   { href: '/about', label: { vi: 'Giới thiệu', en: 'About' } },

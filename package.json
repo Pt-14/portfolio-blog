@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "next dev --webpack -p 9393",
     "build": "next build --webpack",
-    "start": "next start",
+    "start": "next start -p 9393",
     "lint": "eslint",
     "export": "next build --webpack",
     "export:gh-pages": "cross-env GITHUB_PAGES=true next build --webpack",
